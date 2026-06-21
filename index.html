@@ -16,129 +16,126 @@
       --text: #1f2937;
       --text-muted: #6b7280;
       --surface: #ffffff;
-      --background: #f9fafb;
+      --background: #f8fafc;
       --radius: 16px;
-      --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
-      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
-      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.03);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--background); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    body { background-color: var(--background); color: var(--text); line-height: 1.5; overflow-x: hidden; }
 
-    /* Premium Sticky Header Navigation */
+    /* Ultra-Responsive Modern Navigation */
     header {
       position: sticky; top: 0; z-index: 1000;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      padding: 0.75rem 1.25rem; display: flex; justify-content: space-between; align-items: center;
     }
-    .brand-container { display: flex; align-items: center; gap: 1rem; }
-    .logo-placeholder { width: 45px; height: 45px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); border: 2px solid var(--primary); font-size: 0.8rem; text-align: center; }
-    .brand-text h1 { font-size: 1.25rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
-    .brand-text p { font-size: 0.75rem; color: var(--text-muted); }
+    .brand-container { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); border: 2px solid var(--primary); font-size: 0.75rem; text-align: center; }
+    .brand-text h1 { font-size: 1.1rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+    .brand-text p { font-size: 0.7rem; color: var(--text-muted); }
     
-    nav { display: flex; gap: 1.5rem; align-items: center; }
-    nav a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.95rem; transition: var(--transition); cursor: pointer; }
-    nav a:hover { color: var(--primary); }
-    .btn-support-nav { background: var(--primary); color: white !important; padding: 0.6rem 1.2rem; border-radius: 50px; box-shadow: var(--shadow-sm); }
-    .btn-support-nav:hover { background: var(--primary-light); transform: translateY(-1px); }
+    /* Mobile First Navigation Adjustments */
+    nav { display: flex; gap: 1rem; align-items: center; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+    nav::-webkit-scrollbar { display: none; }
+    nav a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.85rem; padding: 0.35rem 0.6rem; border-radius: 8px; white-space: nowrap; transition: all 0.2s; cursor: pointer; }
+    nav a:hover, nav a.active-link { color: var(--primary); background: var(--secondary); }
+    .btn-support-nav { background: var(--primary) !important; color: white !important; padding: 0.4rem 0.9rem; border-radius: 50px; }
 
-    /* Main View Wrapper */
-    .view-pane { display: none; min-height: 80vh; animation: fadeIn 0.4s ease-out forwards; }
+    /* Layout View Panes */
+    .view-pane { display: none; min-height: 80vh; animation: fadeIn 0.3s ease-out forwards; }
     .view-pane.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* Ultra-Modern Hero Layout */
+    /* Streamlined Hero Space */
     .hero {
-      position: relative; padding: 8rem 2rem 6rem 2rem; background: linear-gradient(135deg, rgba(15,81,50,0.92) 0%, rgba(21,115,71,0.85) 100%), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1920&q=80');
-      background-size: cover; background-position: center; background-attachment: fixed;
-      color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 4rem 1.25rem; background: linear-gradient(135deg, rgba(15,81,50,0.95) 0%, rgba(21,115,71,0.9) 100%), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=800&q=80');
+      background-size: cover; background-position: center; color: white; text-align: center;
     }
-    .hero-content { max-width: 800px; z-index: 2; }
-    .hero h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1.5rem; line-height: 1.15; }
-    .hero p { font-size: 1.15rem; opacity: 0.9; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn { padding: 0.85rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: var(--transition); font-size: 0.95rem; }
-    .btn-primary { background: #ffffff; color: var(--primary); box-shadow: var(--shadow-md); }
-    .btn-primary:hover { background: var(--secondary); transform: translateY(-2px); }
+    .hero h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 1rem; line-height: 1.2; }
+    .hero p { font-size: 0.95rem; opacity: 0.9; margin-bottom: 1.75rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .hero-buttons { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 0.7rem 1.5rem; border-radius: 50px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
+    .btn-primary { background: #ffffff; color: var(--primary); box-shadow: var(--shadow-sm); }
     .btn-secondary { background: rgba(255,255,255,0.15); color: white; backdrop-filter: blur(5px); }
-    .btn-secondary:hover { background: rgba(255,255,255,0.25); }
 
-    /* Section Layouts */
-    section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
-    .section-title { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 2.5rem; position: relative; letter-spacing: -0.5px; }
-    .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin-top: 0.5rem; border-radius: 2px; }
+    /* Uniform Layout Section Systems */
+    section { padding: 2.5rem 1.25rem; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 1.4rem; font-weight: 700; color: var(--primary); margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+    .section-title::after { content: ''; display: block; width: 40px; height: 3px; background: var(--primary); margin-top: 0.35rem; border-radius: 2px; }
 
-    /* Grid & Cards Systems */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
-    .card { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(0,0,0,0.03); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
-    .card-img { width: 100%; height: 200px; object-fit: cover; background: #e5e7eb; }
-    .card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-    .card-tag { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; tracking: 0.05em; }
-    .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
-    .card-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+    /* Micro Fluid Cards Architecture */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    .card { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(0,0,0,0.05); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: transform 0.2s; }
+    .card:active { transform: scale(0.98); }
+    .card-img { width: 100%; height: 180px; object-fit: cover; background: #e2e8f0; }
+    .card-body { padding: 1.25rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-tag { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--primary); margin-bottom: 0.4rem; }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); line-height: 1.3; }
+    .card-desc { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem; flex-grow: 1; }
 
-    /* Progress Bar for Crowdfunding Module */
-    .progress-container { background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
-    .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: width 0.5s ease; }
+    /* Progress Display Components */
+    .progress-container { background: #e2e8f0; height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 0.75rem; }
+    .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: width 0.4s ease; }
 
-    /* Modern Forms Design */
-    .form-group { margin-bottom: 1.25rem; }
-    .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
-    .form-control { width: 100%; padding: 0.85rem 1.2rem; border-radius: 10px; border: 1px solid #d1d5db; background: var(--surface); font-size: 0.95rem; transition: var(--transition); }
+    /* Forms */
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .form-control { width: 100%; padding: 0.75rem 1rem; border-radius: 10px; border: 1px solid #cbd5e1; font-size: 0.9rem; background: var(--surface); }
     .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,81,50,0.1); }
     
-    /* Elegant Offline Notice */
-    .offline-bar { background: #b91c1c; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem; font-weight: 600; display: none; position: fixed; bottom: 0; width: 100%; z-index: 2000; }
+    .offline-bar { background: #b91c1c; color: white; text-align: center; padding: 0.4rem; font-size: 0.75rem; font-weight: 600; display: none; position: fixed; bottom: 0; width: 100%; z-index: 2000; }
 
-    /* Hidden Native Admin Panel Layer */
-    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
-    .admin-sidebar { background: var(--primary); color: white; padding: 2rem 1.5rem; }
-    .admin-sidebar h3 { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
-    .admin-menu { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .admin-menu li { padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer; transition: var(--transition); font-weight: 500; font-size: 0.95rem; }
-    .admin-menu li:hover, .admin-menu li.active { background: rgba(255,255,255,0.15); }
-    .admin-workspace { padding: 3rem; background: #f3f4f6; }
-    .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-    .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
-    .metric-card { background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); }
-    .metric-card h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
-    .metric-card p { font-size: 2rem; font-weight: 700; color: var(--primary); }
+    /* Admin Dash Systems */
+    .admin-layout { display: grid; grid-template-columns: 1fr; min-height: 100vh; }
+    .admin-sidebar { background: var(--primary); color: white; padding: 1.25rem; }
+    .admin-sidebar h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+    .admin-menu { list-style: none; display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+    .admin-menu li { padding: 0.5rem 0.8rem; border-radius: 8px; cursor: pointer; white-space: nowrap; font-size: 0.85rem; background: rgba(255,255,255,0.1); }
+    .admin-menu li.active { background: rgba(255,255,255,0.25); font-weight: 700; }
+    .admin-workspace { padding: 1.25rem; background: #f1f5f9; }
     
-    /* Native Data Tables for Admin Management */
-    .table-container { background: white; border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; margin-top: 1.5rem; }
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
-    th { background: #f9fafb; padding: 1rem 1.5rem; font-weight: 600; color: var(--text); border-bottom: 1px solid #e5e7eb; }
-    td { padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; color: var(--text); vertical-align: middle; }
-    .btn-danger { background: #dc2626; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; }
-    .btn-danger:hover { background: #b91c1c; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .metric-card { background: white; padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+    .metric-card h4 { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; }
+    .metric-card p { font-size: 1.4rem; font-weight: 700; color: var(--primary); }
+    
+    .table-container { background: white; border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { background: #f8fafc; padding: 0.75rem 1rem; font-weight: 600; border-bottom: 1px solid #e2e8f0; }
+    td { padding: 0.75rem 1rem; border-bottom: 1px solid #e2e8f0; }
 
-    /* Footer Container */
-    footer { background: #0b3d26; color: rgba(255,255,255,0.8); padding: 4rem 2rem; border-top: 4px solid var(--primary-light); font-size: 0.95rem; }
-    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; }
-    .footer-brand h4 { font-size: 1.25rem; color: white; margin-bottom: 1rem; }
-    .footer-links h5 { color: white; margin-bottom: 1rem; font-size: 1.05rem; }
-    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
-    .footer-links a:hover { color: white; }
-    .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+    /* Footers */
+    footer { background: #072a1a; color: rgba(255,255,255,0.75); padding: 2.5rem 1.25rem; font-size: 0.85rem; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    .footer-brand h4 { color: white; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .footer-links h5 { color: white; margin-bottom: 0.5rem; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+    .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; cursor: pointer; }
+    .footer-bottom { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; }
 
-    @media (max-width: 768px) {
-      header { padding: 1rem; }
-      nav { display: none; } /* On premium setups mobile configurations can use simplified interaction layouts */
-      .hero h2 { font-size: 2.2rem; }
-      .admin-layout { grid-template-columns: 1fr; }
-      .admin-sidebar { display: none; }
+    /* Media Desktop Breakpoints */
+    @media (min-width: 768px) {
+      header { padding: 0.75rem 2.5rem; }
+      .hero { padding: 6rem 2rem; }
+      .hero h2 { font-size: 2.6rem; }
+      section { padding: 4rem 2rem; }
+      .section-title { font-size: 1.8rem; }
+      .admin-layout { grid-template-columns: 240px 1fr; }
+      .admin-sidebar { padding: 2rem 1.5rem; }
+      .admin-menu { flex-direction: column; overflow-x: visible; }
+      .metric-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+      .footer-grid { grid-template-columns: repeat(3, 1fr); gap: 3rem; }
     }
   </style>
 </head>
 <body>
 
-  <div id="offline-indicator" class="offline-bar">Operating in Offline Caching Mode. Form entries will sync automatically on restoration.</div>
+  <div id="offline-indicator" class="offline-bar">Operating Offline. Content changes will sync on connection recovery.</div>
 
   <div id="public-shell">
     <header>
@@ -149,57 +146,70 @@
           <p>Primary Healthcare Excellence</p>
         </div>
       </div>
-      <nav>
-        <a onclick="setView('home')">Home</a>
-        <a onclick="setView('directory')">Staff Directory</a>
-        <a onclick="setView('news')">News</a>
-        <a onclick="setView('support')">Urgent Needs</a>
-        <a onclick="setView('gallery')">Gallery</a>
-        <a onclick="setView('feedback')">Feedback & Complaints</a>
+      <nav id="public-navigation-links">
+        <a onclick="setView('home')" id="nav-home" class="active-link">Home</a>
+        <a onclick="setView('directory')" id="nav-directory">Staff</a>
+        <a onclick="setView('news')" id="nav-news">News</a>
+        <a onclick="setView('support')" id="nav-support">Needs</a>
+        <a onclick="setView('gallery')" id="nav-gallery">Gallery</a>
+        <a onclick="setView('feedback')" id="nav-feedback">Feedback</a>
         <a onclick="setView('support')" class="btn-support-nav">Support Us</a>
       </nav>
     </header>
 
+    <!-- HOME VIEW WITH EMBEDDED REAL-TIME HIGHLIGHTS FEEDS -->
     <div id="view-home" class="view-pane active">
       <div class="hero">
         <div class="hero-content">
-          <h2>Providing Premium Quality Healthcare to the Nangodi Community</h2>
-          <p>Welcome to your digital health platform. Accessible anywhere, anytime, completely engineered to function even when connectivity is down.</p>
+          <h2>Providing Quality Healthcare to the Nangodi Community</h2>
+          <p>Accessible anywhere, anytime. Fully engineered to function smoothly even when standard local networks are offline.</p>
           <div class="hero-buttons">
-            <button class="btn btn-primary" onclick="setView('feedback')">File urgent Complaint</button>
+            <button class="btn btn-primary" onclick="setView('feedback')">File Urgent Complaint</button>
             <button class="btn btn-secondary" onclick="setView('support')">View Critical Support Needs</button>
           </div>
         </div>
       </div>
       
+      <!-- Live Dynamic News Feature Grid Panel -->
+      <section style="background: #ffffff; border-bottom: 1px solid rgba(0,0,0,0.03);">
+        <h3 class="section-title">Latest Health Updates & Broadcasts</h3>
+        <div class="grid" id="home-news-preview-grid"></div>
+      </section>
+
+      <!-- Live Dynamic Personnel Highlight Grid Panel -->
       <section>
+        <h3 class="section-title">Featured Duty Personnel</h3>
+        <div class="grid" id="home-staff-preview-grid"></div>
+      </section>
+
+      <section style="background: rgba(15,81,50,0.02);">
         <h3 class="section-title">Our Foundations</h3>
         <div class="grid">
-          <div class="card"><div class="card-body"><h4 class="card-title">Our Mission</h4><p class="card-desc">To deliver high-quality, accessible, and compassionate primary healthcare services to the people of Nangodi and surrounding communities through evidence-based practice and community integration.</p></div></div>
-          <div class="card"><div class="card-body"><h4 class="card-title">Our Vision</h4><p class="card-desc">To become a benchmark health facility in rural health operational delivery, optimizing modern digital tools and community tracking models.</p></div></div>
-          <div class="card"><div class="card-body"><h4 class="card-title">Core Services</h4><p class="card-desc">Outpatient care, Antenatal & Maternity services, Preventive Immunization, Community Outreach, Health Education, Pharmacy & Diagnostic Support.</p></div></div>
+          <div class="card"><div class="card-body"><h4 class="card-title">Our Mission</h4><p class="card-desc">To deliver high-quality, accessible primary healthcare services to the people of Nangodi through community integration.</p></div></div>
+          <div class="card"><div class="card-body"><h4 class="card-title">Our Vision</h4><p class="card-desc">To become a benchmark health facility in rural health operational delivery optimizing modern mobile offline tracking models.</p></div></div>
+          <div class="card"><div class="card-body"><h4 class="card-title">Core Services</h4><p class="card-desc">Outpatient care, Antenatal & Maternity services, Preventive Immunization, Community Outreach, and Health Education.</p></div></div>
         </div>
       </section>
     </div>
 
     <div id="view-directory" class="view-pane">
       <section>
-        <h3 class="section-title">Medical & Support Personnel</h3>
+        <h3 class="section-title">Medical & Support Personnel Directory</h3>
         <div class="grid" id="public-staff-grid"></div>
       </section>
     </div>
 
     <div id="view-news" class="view-pane">
       <section>
-        <h3 class="section-title">Health Bulletins & Announcements</h3>
+        <h3 class="section-title">Health Bulletins & Announcements Archive</h3>
         <div class="grid" id="public-news-grid"></div>
       </section>
     </div>
 
     <div id="view-support" class="view-pane">
-      <section style="background: var(--secondary); border-radius: var(--radius); margin-top: 2rem; margin-bottom: 2rem;">
-        <h3 class="section-title" style="margin-left: 1.5rem; padding-top: 1.5rem;">Support Nangodi Health Centre</h3>
-        <p style="margin-left: 1.5rem; margin-bottom: 2rem; max-width: 800px; color: var(--text-muted)">Help us improve clinical service capability, build critical infrastructure, and reach outlying areas via our field operations. Explore our verified current needs catalogs below.</p>
+      <section style="background: var(--secondary); border-radius: var(--radius); margin-top: 1rem;">
+        <h3 class="section-title" style="padding: 1.5rem 1.5rem 0 1.5rem;">Support Nangodi Health Centre</h3>
+        <p style="padding: 0 1.5rem 1.5rem 1.5rem; max-width: 800px; color: var(--text-muted); font-size: 0.9rem;">Help us improve clinical service capability, build critical infrastructure, and reach outlying areas via our field operations.</p>
       </section>
       <section>
         <h3 class="section-title">Active Field Requirements</h3>
@@ -243,7 +253,7 @@
             <label>Detailed Message</label>
             <textarea class="form-control" id="comp-msg" rows="5" required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Transmit Feedback securely</button>
+          <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Transmit Feedback Securely</button>
         </form>
       </section>
     </div>
@@ -275,7 +285,8 @@
     </footer>
   </div>
 
-  <div id="admin-auth-screen" class="view-pane" style="max-width: 400px; margin: 10% auto; padding: 2rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);">
+  <!-- ADMIN AUTH TERMINAL -->
+  <div id="admin-auth-screen" class="view-pane" style="max-width: 400px; margin: 15% auto; padding: 2rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);">
     <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Secure Terminal Access</h3>
     <form onsubmit="handleAdminLogin(event)">
       <div class="form-group">
@@ -290,6 +301,7 @@
     </form>
   </div>
 
+  <!-- ADMIN DASHBOARD PANEL -->
   <div id="admin-dashboard-shell" class="view-pane">
     <div class="admin-layout">
       <div class="admin-sidebar">
@@ -301,7 +313,7 @@
           <li onclick="setAdminSection('support')">Support Items</li>
           <li onclick="setAdminSection('gallery')">Media Management</li>
           <li onclick="setAdminSection('complaints')">Complaints Box</li>
-          <li onclick="logoutAdmin()" style="margin-top: 3rem; background: rgba(220,38,38,0.2);">Exit Terminal</li>
+          <li onclick="logoutAdmin()" style="margin-top: 2rem; background: rgba(220,38,38,0.2);">Exit Terminal</li>
         </ul>
       </div>
       
@@ -309,100 +321,100 @@
         <div id="admin-sec-metrics" class="admin-sub-view" style="display: block;">
           <div class="admin-header-flex"><h2>Operational Matrix Center</h2></div>
           <div class="metric-grid">
-            <div class="metric-card"><h4>Active Staff Records</h4><p id="m-staff">0</p></div>
-            <div class="metric-card"><h4>Published Articles</h4><p id="m-news">0</p></div>
+            <div class="metric-card"><h4>Active Staff</h4><p id="m-staff">0</p></div>
+            <div class="metric-card"><h4>Published News</h4><p id="m-news">0</p></div>
             <div class="metric-card"><h4>Open Incidents</h4><p id="m-comp">0</p></div>
-            <div class="metric-card"><h4>Active Support Target Campaigns</h4><p id="m-support">0</p></div>
+            <div class="metric-card"><h4>Active Campaigns</h4><p id="m-support">0</p></div>
           </div>
         </div>
 
         <div id="admin-sec-staff" class="admin-sub-view" style="display: none;">
-          <div class="admin-header-flex"><h2>Personnel Management</h2></div>
-          <form id="addStaffForm" onsubmit="handleAdminAddStaff(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
-            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-              <input type="text" id="st-name" placeholder="Staff Name" class="form-control" required>
-              <input type="text" id="st-pos" placeholder="Position (e.g. Midwife)" class="form-control" required>
-              <input type="text" id="st-dept" placeholder="Department" class="form-control" required>
-              <input type="text" id="st-prof" placeholder="Brief Professional Profile Description" class="form-control" required>
-              <input type="file" id="st-file" class="form-control" accept="image/*" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; margin-top: 1rem;">Register Core Personnel</button>
+          <div class="admin-header-flex" style="margin-bottom: 1rem;"><h2>Personnel Management</h2></div>
+          <form id="addStaffForm" onsubmit="handleAdminAddStaff(event)" style="background: white; padding: 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+            <div class="form-group"><input type="text" id="st-name" placeholder="Staff Name" class="form-control" required></div>
+            <div class="form-group"><input type="text" id="st-pos" placeholder="Position (e.g. Midwife)" class="form-control" required></div>
+            <div class="form-group"><input type="text" id="st-dept" placeholder="Department" class="form-control" required></div>
+            <div class="form-group"><input type="text" id="st-prof" placeholder="Brief Professional Profile Description" class="form-control" required></div>
+            <div class="form-group"><label>Profile Image File</label><input type="file" id="st-file" class="form-control" accept="image/*" required></div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Register Core Personnel</button>
           </form>
-          <div class="table-container"><table><thead><tr><th>Name</th><th>Position</th><th>Department</th><th>Action</th></tr></thead><tbody id="admin-staff-table"></tbody></table></div>
+          <div class="table-container"><table><thead><tr><th>Name</th><th>Position</th><th>Action</th></tr></thead><tbody id="admin-staff-table"></tbody></table></div>
         </div>
 
         <div id="admin-sec-news" class="admin-sub-view" style="display: none;">
-          <div class="admin-header-flex"><h2>Publish System Broadcasts</h2></div>
-          <form id="addNewsForm" onsubmit="handleAdminAddNews(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
-            <div class="form-group"><input type="text" id="ns-title" placeholder="Article / Update Title" class="form-control" required></div>
+          <div class="admin-header-flex" style="margin-bottom: 1rem;"><h2>Publish Updates</h2></div>
+          <form id="addNewsForm" onsubmit="handleAdminAddNews(event)" style="background: white; padding: 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+            <div class="form-group"><input type="text" id="ns-title" placeholder="Article Title" class="form-control" required></div>
             <div class="form-group"><textarea id="ns-content" placeholder="Content Body" class="form-control" rows="4" required></textarea></div>
             <div class="form-group"><label>Attach Media File</label><input type="file" id="ns-file" class="form-control" accept="image/*" required></div>
-            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white;">Broadcast Article</button>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Broadcast Article</button>
           </form>
-          <div class="table-container"><table><thead><tr><th>Broadcast Title</th><th>Timestamp</th><th>Action</th></tr></thead><tbody id="admin-news-table"></tbody></table></div>
+          <div class="table-container"><table><thead><tr><th>Title</th><th>Action</th></tr></thead><tbody id="admin-news-table"></tbody></table></div>
         </div>
 
         <div id="admin-sec-support" class="admin-sub-view" style="display: none;">
-          <div class="admin-header-flex"><h2>Support Campaigns Manager</h2></div>
-          <form id="addSupportForm" onsubmit="handleAdminAddSupport(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
-            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-              <input type="text" id="sp-title" placeholder="Campaign Objective Target Title" class="form-control" required>
-              <input type="text" id="sp-desc" placeholder="Comprehensive Impact Statement Description" class="form-control" required>
+          <div class="admin-header-flex" style="margin-bottom: 1rem;"><h2>Campaigns Manager</h2></div>
+          <form id="addSupportForm" onsubmit="handleAdminAddSupport(event)" style="background: white; padding: 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
+            <div class="form-group"><input type="text" id="sp-title" placeholder="Campaign Title" class="form-control" required></div>
+            <div class="form-group"><input type="text" id="sp-desc" placeholder="Comprehensive Impact Description" class="form-control" required></div>
+            <div class="form-group">
               <select id="sp-cat" class="form-control">
-                <option>Infrastructure Development</option><option>Medical Equipment</option><option>Medicines and Medical Supplies</option><option>Ambulance Support</option><option>Solar Power Projects</option>
+                <option>Infrastructure Development</option><option>Medical Equipment</option><option>Medicines and Supplies</option><option>Solar Power Projects</option>
               </select>
-              <input type="text" id="sp-target" placeholder="Financial Estimate Baseline / Contact Target Info" class="form-control" required>
-              <input type="file" id="sp-file" class="form-control" accept="image/*" required>
             </div>
-            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; margin-top: 1rem;">Deploy Support Campaign Tracker</button>
+            <div class="form-group"><input type="text" id="sp-target" placeholder="Financial/Contact Target Details" class="form-control" required></div>
+            <div class="form-group"><label>Campaign Image Asset</label><input type="file" id="sp-file" class="form-control" accept="image/*" required></div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Deploy Support Campaign</button>
           </form>
-          <div class="table-container"><table><thead><tr><th>Campaign</th><th>Category</th><th>Target Details</th><th>Action</th></tr></thead><tbody id="admin-support-table"></tbody></table></div>
+          <div class="table-container"><table><thead><tr><th>Campaign</th><th>Action</th></tr></thead><tbody id="admin-support-table"></tbody></table></div>
         </div>
 
         <div id="admin-sec-gallery" class="admin-sub-view" style="display: none;">
-          <div class="admin-header-flex"><h2>Gallery Controller</h2></div>
-          <form id="addGalleryForm" onsubmit="handleAdminAddGallery(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+          <div class="admin-header-flex" style="margin-bottom: 1rem;"><h2>Gallery Controller</h2></div>
+          <form id="addGalleryForm" onsubmit="handleAdminAddGallery(event)" style="background: white; padding: 1.25rem; border-radius: var(--radius); margin-bottom: 1.5rem;">
             <div class="form-group"><input type="file" id="gal-file" class="form-control" accept="image/*" required></div>
-            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white;">Push Media Stream Instance</button>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Push Media Stream Instance</button>
           </form>
-          <div class="table-container"><table><thead><tr><th>Image Reference ID</th><th>Timestamp</th><th>Action</th></tr></thead><tbody id="admin-gallery-table"></tbody></table></div>
+          <div class="table-container"><table><thead><tr><th>Image ID</th><th>Action</th></tr></thead><tbody id="admin-gallery-table"></tbody></table></div>
         </div>
 
         <div id="admin-sec-complaints" class="admin-sub-view" style="display: none;">
           <div class="admin-header-flex"><h2>Citizen Complaints Vault</h2></div>
-          <div class="table-container"><table><thead><tr><th>Sender</th><th>Contact</th><th>Category</th><th>Message Block</th><th>Status</th><th>Action</th></tr></thead><tbody id="admin-complaints-table"></tbody></table></div>
+          <div class="table-container"><table><thead><tr><th>Sender</th><th>Message Block</th><th>Status</th><th>Action</th></tr></thead><tbody id="admin-complaints-table"></tbody></table></div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log("Premium PWA Service Engine Engaged Active."))
-    .catch(err => console.error("PWA Engine Configuration Fault:", err));
-}
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("PWA Service Worker Operational"))
+        .catch(err => console.error("PWA SW Registration Fault:", err));
+    }
 
-    // CORE GLOBAL APP ARCHITECTURE PROPERTIES
-    // PASTE YOUR GOOGLE DEPLOYED WEB APP URL DIRECTLY HERE BELOW
     const BACKEND_API_URL = "https://script.google.com/macros/s/AKfycbyGIGRZvA_sB6OnqSQ5yotCZrN46omOh98KC-uM87_JDpq574rpK8safLs-ee5TvQF_/exec";
     
     let localDB = { Staff: [], News: [], Complaints: [], Support: [], Gallery: [] };
     let indexedDatabaseInstance = null;
 
-    // View Engine Core Router Implementation
     function setView(viewName) {
       document.getElementById('public-shell').style.display = 'block';
       document.getElementById('admin-auth-screen').style.display = 'none';
       document.getElementById('admin-dashboard-shell').style.display = 'none';
       
       document.querySelectorAll('.view-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('#public-navigation-links a').forEach(el => el.classList.remove('active-link'));
+      
       const activeView = document.getElementById(`view-${viewName}`);
+      const activeLink = document.getElementById(`nav-${viewName}`);
+      
       if (activeView) activeView.classList.add('active');
+      if (activeLink) activeLink.classList.add('active-link');
+      
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Capture Secret Route Changes For Hiding Administration Panels
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#admin-panel') {
         document.getElementById('public-shell').style.display = 'none';
@@ -413,7 +425,6 @@ if ('serviceWorker' in navigator) {
       }
     });
 
-    // Initialize Local Engine Architecture Components
     window.addEventListener('DOMContentLoaded', () => {
       initializeIndexedDB();
       if (window.location.hash === '#admin-panel') {
@@ -421,13 +432,11 @@ if ('serviceWorker' in navigator) {
         document.getElementById('admin-auth-screen').style.display = 'block';
       }
       
-      // Online Monitor Hooks
       window.addEventListener('online', syncSystemDataPipeline);
       window.addEventListener('offline', () => { document.getElementById('offline-indicator').style.display = 'block'; });
       if(!navigator.onLine) document.getElementById('offline-indicator').style.display = 'block';
     });
 
-    // IndexedDB Technical Management Layer Code
     function initializeIndexedDB() {
       const request = indexedDB.open("NangodiHealthDB", 1);
       request.onupgradeneeded = (event) => {
@@ -451,16 +460,13 @@ if ('serviceWorker' in navigator) {
       if (!indexedDatabaseInstance) return;
       const tx = indexedDatabaseInstance.transaction("cachedData", "readonly");
       const store = tx.objectStore("cachedData");
-      
       const tables = ['Staff', 'News', 'Complaints', 'Support', 'Gallery'];
       let loadedCount = 0;
       
       tables.forEach(table => {
         const req = store.get(table);
         req.onsuccess = () => {
-          if (req.result) {
-            localDB[table] = req.result.payload;
-          }
+          if (req.result) { localDB[table] = req.result.payload; }
           loadedCount++;
           if (loadedCount === tables.length) {
             renderPublicInterfaceElements();
@@ -470,10 +476,10 @@ if ('serviceWorker' in navigator) {
       });
     }
 
-    // API Pipeline Interaction
+    // FIX 1: Cache-busting parameter added to force mobile refresh
     function fetchLatestDataFromCloudEngine() {
-      if(BACKEND_API_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") return;
-      fetch(BACKEND_API_URL)
+      const cacheBusterUrl = `${BACKEND_API_URL}?_=${new Date().getTime()}`;
+      fetch(cacheBusterUrl)
         .then(res => res.json())
         .then(response => {
           if(response.success) {
@@ -484,53 +490,66 @@ if ('serviceWorker' in navigator) {
             renderPublicInterfaceElements();
             calculateOperationalMetrics();
           }
-        }).catch(err => console.log("Cloud extraction offline. Reverting safely to cached storage indexes.", err));
+        }).catch(err => console.log("Cloud extraction offline. Reverting safely to cache storage indexes.", err));
     }
 
-    // Process Public Client Elements UI Framework Rendering
+    // FIX 2 & 3: Pulling items directly into home-panels and loading valid base64 variables
     function renderPublicInterfaceElements() {
       document.getElementById('offline-indicator').style.display = navigator.onLine ? 'none' : 'block';
       
-      // Render Staff Core Catalog View
+      const sortedNews = [...localDB.News].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      
+      // Target elements
       const staffGrid = document.getElementById('public-staff-grid');
-      staffGrid.innerHTML = localDB.Staff.map(s => `
+      const homeStaffGrid = document.getElementById('home-staff-preview-grid');
+      const newsGrid = document.getElementById('public-news-grid');
+      const homeNewsGrid = document.getElementById('home-news-preview-grid');
+      
+      // Render Staff Core Framework Template Mapping Function
+      const makeStaffHTML = (s) => `
         <div class="card">
-          <img src="${s.photo || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Staff Profile Photo">
+          <img src="${s.photo && s.photo.startsWith('data:') ? s.photo : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Staff Profile Photo">
           <div class="card-body">
-            <span class="card-tag">${s.department}</span>
+            <span class="card-tag">${s.department || 'General Medicine'}</span>
             <h4 class="card-title">${s.name}</h4>
             <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.position}</p>
-            <p class="card-desc">${s.profile}</p>
+            <p class="card-desc">${s.profile || 'No bio profile added yet.'}</p>
           </div>
         </div>
-      `).join('');
+      `;
 
-      // Render Dynamic News Core Engine (CRITICAL: NEWEST ENTRIES ON TOP)
-      const sortedNews = [...localDB.News].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      const newsGrid = document.getElementById('public-news-grid');
-      newsGrid.innerHTML = sortedNews.map(n => `
+      // Render News Core Framework Template Mapping Function
+      const makeNewsHTML = (n) => `
         <div class="card">
-          <img src="${n.image || 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="News Image Context">
+          <img src="${n.image && n.image.startsWith('data:') ? n.image : 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="News Update Context Asset">
           <div class="card-body">
-            <span class="card-tag">${new Date(n.timestamp).toLocaleDateString()}</span>
+            <span class="card-tag">${n.timestamp ? new Date(n.timestamp).toLocaleDateString() : 'Recent'}</span>
             <h4 class="card-title">${n.title}</h4>
             <p class="card-desc">${n.content}</p>
           </div>
         </div>
-      `).join('');
+      `;
 
-      // Render Support / Campaign Platform Infrastructure Modules
+      // Output to specific directory sections
+      staffGrid.innerHTML = localDB.Staff.length ? localDB.Staff.map(makeStaffHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No personnel records found.</p>';
+      newsGrid.innerHTML = sortedNews.length ? sortedNews.map(makeNewsHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No broadcasts available.</p>';
+      
+      // Output premium slices directly onto user homepage layout
+      homeStaffGrid.innerHTML = localDB.Staff.length ? localDB.Staff.slice(0, 3).map(makeStaffHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No personnel profiles available.</p>';
+      homeNewsGrid.innerHTML = sortedNews.length ? sortedNews.slice(0, 3).map(makeNewsHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No updates posted recently.</p>';
+
+      // Render Campaigns
       const supportGrid = document.getElementById('public-support-grid');
       supportGrid.innerHTML = localDB.Support.map(sp => `
         <div class="card">
-          <img src="${sp.image || 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Campaign Image Context">
+          <img src="${sp.image && sp.image.startsWith('data:') ? sp.image : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Campaign Image">
           <div class="card-body">
             <span class="card-tag">${sp.category}</span>
             <h4 class="card-title">${sp.title}</h4>
             <p class="card-desc">${sp.description}</p>
-            <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Urgent Requirement Status Target: ${sp.target}</p>
-            <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '40%'}"></div></div>
-            <p style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Status: ${sp.status}</p>
+            <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Target/Contact: ${sp.target}</p>
+            <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '45%'}"></div></div>
+            <p style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">Campaign Status: ${sp.status}</p>
           </div>
         </div>
       `).join('');
@@ -538,13 +557,10 @@ if ('serviceWorker' in navigator) {
       // Render Community Gallery Element Stream Architecture
       const galleryGrid = document.getElementById('public-gallery-grid');
       galleryGrid.innerHTML = localDB.Gallery.map(g => `
-        <div class="card">
-          <img src="${g.image}" class="card-img" style="height:250px;" alt="Gallery Media Container Asset">
-        </div>
+        <div class="card"><img src="${g.image}" class="card-img" style="height:240px;" alt="Gallery Asset"></div>
       `).join('');
     }
 
-    // Handle Public Feedback Submissions Pipeline Architecture
     function handleComplaintSubmit(e) {
       e.preventDefault();
       const payload = {
@@ -558,7 +574,7 @@ if ('serviceWorker' in navigator) {
 
       if (navigator.onLine) {
         transmitPayloadDirectlyToCloudAPI(payload, () => {
-          alert("Submission dispatched successfully to administration backend layer.");
+          alert("Submission dispatched successfully.");
           document.getElementById('complaintForm').reset();
           fetchLatestDataFromCloudEngine();
         });
@@ -570,7 +586,7 @@ if ('serviceWorker' in navigator) {
     function stagePayloadInOutboxQueue(payload) {
       const tx = indexedDatabaseInstance.transaction("outboxQueue", "readwrite");
       tx.objectStore("outboxQueue").add(payload);
-      alert("Terminal Operating Offline. Data stored locally inside secure device engine storage sandbox. Sync runs when connection returns.");
+      alert("Terminal Operating Offline. Entry preserved locally.");
       document.getElementById('complaintForm').reset();
     }
 
@@ -587,7 +603,7 @@ if ('serviceWorker' in navigator) {
         let processedCount = 0;
         queuedItems.forEach(item => {
           const itemId = item.id;
-          delete item.id; // clear system index key reference
+          delete item.id;
           transmitPayloadDirectlyToCloudAPI(item, () => {
             const deleteTx = indexedDatabaseInstance.transaction("outboxQueue", "readwrite");
             deleteTx.objectStore("outboxQueue").delete(itemId);
@@ -605,10 +621,9 @@ if ('serviceWorker' in navigator) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).then(() => successCallback())
-        .catch(err => console.error("Network synchronization drop fault detected", err));
+        .catch(err => console.error("Synchronization drop detected", err));
     }
 
-    // SECURE LOCAL NATIVE MANAGEMENT DESK IMPLEMENTATION MODULES
     function handleAdminLogin(e) {
       e.preventDefault();
       const user = document.getElementById('auth-user').value;
@@ -626,7 +641,7 @@ if ('serviceWorker' in navigator) {
             setAdminSection('metrics');
             calculateOperationalMetrics();
             renderManagementTables();
-          } else { alert("Authentication Access Denied. Verify Security Token Context Key."); }
+          } else { alert("Authentication Access Denied."); }
         });
     }
 
@@ -639,7 +654,7 @@ if ('serviceWorker' in navigator) {
       document.querySelectorAll('.admin-sub-view').forEach(el => el.style.display = 'none');
       document.getElementById(`admin-sec-${secName}`).style.display = 'block';
       document.querySelectorAll('.admin-menu li').forEach(el => el.classList.remove('active'));
-      event.target.classList.add('active');
+      if(event && event.target) event.target.classList.add('active');
     }
 
     function calculateOperationalMetrics() {
@@ -649,7 +664,6 @@ if ('serviceWorker' in navigator) {
       document.getElementById('m-support').innerText = localDB.Support.length;
     }
 
-    // Helper Utility for Handling Image Upload Streams Electronically
     function convertFileInputToBase64Stream(inputElement, callback) {
       if (inputElement.files && inputElement.files[0]) {
         const FR = new FileReader();
@@ -658,7 +672,6 @@ if ('serviceWorker' in navigator) {
       } else { callback(""); }
     }
 
-    // Admin Add Resource Operators
     function handleAdminAddStaff(e) {
       e.preventDefault();
       convertFileInputToBase64Stream(document.getElementById('st-file'), (base64String) => {
@@ -746,17 +759,12 @@ if ('serviceWorker' in navigator) {
       }).then(res => res.json()).then(res => { if(res.success) fetchLatestDataFromCloudEngine(); });
     }
 
-    // Render Tabular Framework Layouts inside Internal Panel
     function renderManagementTables() {
-      document.getElementById('admin-staff-table').innerHTML = localDB.Staff.map(s => `<tr><td>${s.name}</td><td>${s.position}</td><td>${s.department}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Staff','${s.id}')">Delete</button></td></tr>`).join('');
-      
-      const sortedNews = [...localDB.News].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-      document.getElementById('admin-news-table').innerHTML = sortedNews.map(n => `<tr><td>${n.title}</td><td>${new Date(n.timestamp).toLocaleDateString()}</td><td><button class="btn-danger" onclick="triggerDeleteRow('News','${n.id}')">Delete</button></td></tr>`).join('');
-      
-      document.getElementById('admin-support-table').innerHTML = localDB.Support.map(sp => `<tr><td>${sp.title}</td><td>${sp.category}</td><td>${sp.target}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Support','${sp.id}')">Delete</button></td></tr>`).join('');
-      document.getElementById('admin-gallery-table').innerHTML = localDB.Gallery.map(g => `<tr><td>${g.id}</td><td>${new Date(g.timestamp).toLocaleDateString()}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Gallery','${g.id}')">Delete</button></td></tr>`).join('');
-      
-      document.getElementById('admin-complaints-table').innerHTML = localDB.Complaints.map(c => `<tr><td>${c.name}</td><td>${c.phone}</td><td>${c.category}</td><td>${c.message}</td><td><strong>${c.status}</strong></td><td><button style="background:var(--primary); color:white; border:none; padding:0.3rem; border-radius:4px; font-size:0.8rem;" onclick="updateComplaintStatus('${c.id}', 'Resolved')">Resolve</button></td></tr>`).join('');
+      document.getElementById('admin-staff-table').innerHTML = localDB.Staff.map(s => `<tr><td>${s.name}</td><td>${s.position}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Staff','${s.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-news-table').innerHTML = localDB.News.map(n => `<tr><td>${n.title}</td><td><button class="btn-danger" onclick="triggerDeleteRow('News','${n.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-support-table').innerHTML = localDB.Support.map(sp => `<tr><td>${sp.title}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Support','${sp.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-gallery-table').innerHTML = localDB.Gallery.map(g => `<tr><td>${g.id}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Gallery','${g.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-complaints-table').innerHTML = localDB.Complaints.map(c => `<tr><td>${c.name}</td><td>${c.message}</td><td><strong>${c.status}</strong></td><td><button style="background:var(--primary); color:white; border:none; padding:0.2rem 0.5rem; border-radius:4px;" onclick="updateComplaintStatus('${c.id}', 'Resolved')">Resolve</button></td></tr>`).join('');
     }
   </script>
 </body>
