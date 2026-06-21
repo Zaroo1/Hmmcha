@@ -1,16 +1,22 @@
 {
-  "short_name": "NangodiHealth",
-  "name": "Nangodi Health Centre Staff Records System",
+  "name": "Nangodi Health Centre Digital Portal",
+  "short_name": "Nangodi Health",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f5132",
+  "orientation": "portrait-primary",
+  "description": "Premium Installable Medical Application Platform for Nangodi Health Centre.",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2966/2966327.png",
-      "type": "image/png",
-      "sizes": "512/512"
+      "src": "https://cdn-icons-png.flaticon.com/512/2859/2859733.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2859/2859733.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  ],
-  "start_url": "./index.html",
-  "background_color": "#ffffff",
-  "theme_color": "#2e7d32",
-  "display": "standalone",
-  "orientation": "portrait-primary"
+  ]
 }
