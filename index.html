@@ -3,597 +3,760 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nangodi Health Centre Staff Records System</title>
+  <title>Nangodi Health Centre</title>
   <link rel="manifest" href="manifest.json">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="theme-color" content="#0f5132">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-green: #1b5e20;
-      --light-green: #e8f5e9;
-      --dark-green: #0c3311;
-      --accent-white: #ffffff;
+      --primary: #0f5132;
+      --primary-light: #157347;
+      --secondary: #e8f5e9;
+      --accent: #2563eb;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --surface: #ffffff;
+      --background: #f9fafb;
+      --radius: 16px;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    body {
-      background-color: #fcfdfc;
-      font-family: system-ui, -apple-system, sans-serif;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--background); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+
+    /* Premium Sticky Header Navigation */
+    header {
+      position: sticky; top: 0; z-index: 1000;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center;
     }
-    .bg-green { background-color: var(--primary-green) !important; color: white; }
-    .text-green { color: var(--primary-green); }
-    .btn-green { background-color: var(--primary-green); color: white; }
-    .btn-green:hover { background-color: var(--dark-green); color: white; }
-    .hero-banner {
-      background: linear-gradient(rgba(27, 94, 32, 0.8), rgba(12, 51, 17, 0.9)), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80') center/cover;
-      color: white;
-      padding: 100px 20px;
-      text-align: center;
+    .brand-container { display: flex; align-items: center; gap: 1rem; }
+    .logo-placeholder { width: 45px; height: 45px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); border: 2px solid var(--primary); font-size: 0.8rem; text-align: center; }
+    .brand-text h1 { font-size: 1.25rem; font-weight: 700; color: var(--primary); letter-spacing: -0.5px; }
+    .brand-text p { font-size: 0.75rem; color: var(--text-muted); }
+    
+    nav { display: flex; gap: 1.5rem; align-items: center; }
+    nav a { text-decoration: none; color: var(--text); font-weight: 500; font-size: 0.95rem; transition: var(--transition); cursor: pointer; }
+    nav a:hover { color: var(--primary); }
+    .btn-support-nav { background: var(--primary); color: white !important; padding: 0.6rem 1.2rem; border-radius: 50px; box-shadow: var(--shadow-sm); }
+    .btn-support-nav:hover { background: var(--primary-light); transform: translateY(-1px); }
+
+    /* Main View Wrapper */
+    .view-pane { display: none; min-height: 80vh; animation: fadeIn 0.4s ease-out forwards; }
+    .view-pane.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Ultra-Modern Hero Layout */
+    .hero {
+      position: relative; padding: 8rem 2rem 6rem 2rem; background: linear-gradient(135deg, rgba(15,81,50,0.92) 0%, rgba(21,115,71,0.85) 100%), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover; background-position: center; background-attachment: fixed;
+      color: white; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    .navbar-brand img { height: 40px; margin-right: 10px; }
-    .card-counter {
-      border-left: 5px solid var(--primary-green);
-      border-radius: 4px;
+    .hero-content { max-width: 800px; z-index: 2; }
+    .hero h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1.5rem; line-height: 1.15; }
+    .hero p { font-size: 1.15rem; opacity: 0.9; margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 0.85rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: var(--transition); font-size: 0.95rem; }
+    .btn-primary { background: #ffffff; color: var(--primary); box-shadow: var(--shadow-md); }
+    .btn-primary:hover { background: var(--secondary); transform: translateY(-2px); }
+    .btn-secondary { background: rgba(255,255,255,0.15); color: white; backdrop-filter: blur(5px); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+
+    /* Section Layouts */
+    section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 2rem; font-weight: 700; color: var(--primary); margin-bottom: 2.5rem; position: relative; letter-spacing: -0.5px; }
+    .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--primary); margin-top: 0.5rem; border-radius: 2px; }
+
+    /* Grid & Cards Systems */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+    .card { background: var(--surface); border-radius: var(--radius); border: 1px solid rgba(0,0,0,0.03); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .card-img { width: 100%; height: 200px; object-fit: cover; background: #e5e7eb; }
+    .card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-tag { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; tracking: 0.05em; }
+    .card-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text); }
+    .card-desc { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; flex-grow: 1; }
+
+    /* Progress Bar for Crowdfunding Module */
+    .progress-container { background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+    .progress-bar { background: var(--primary); height: 100%; width: 0%; transition: width 0.5s ease; }
+
+    /* Modern Forms Design */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+    .form-control { width: 100%; padding: 0.85rem 1.2rem; border-radius: 10px; border: 1px solid #d1d5db; background: var(--surface); font-size: 0.95rem; transition: var(--transition); }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15,81,50,0.1); }
+    
+    /* Elegant Offline Notice */
+    .offline-bar { background: #b91c1c; color: white; text-align: center; padding: 0.5rem; font-size: 0.85rem; font-weight: 600; display: none; position: fixed; bottom: 0; width: 100%; z-index: 2000; }
+
+    /* Hidden Native Admin Panel Layer */
+    .admin-layout { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+    .admin-sidebar { background: var(--primary); color: white; padding: 2rem 1.5rem; }
+    .admin-sidebar h3 { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+    .admin-menu { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .admin-menu li { padding: 0.75rem 1rem; border-radius: 8px; cursor: pointer; transition: var(--transition); font-weight: 500; font-size: 0.95rem; }
+    .admin-menu li:hover, .admin-menu li.active { background: rgba(255,255,255,0.15); }
+    .admin-workspace { padding: 3rem; background: #f3f4f6; }
+    .admin-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .metric-card { background: white; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); }
+    .metric-card h4 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .metric-card p { font-size: 2rem; font-weight: 700; color: var(--primary); }
+    
+    /* Native Data Tables for Admin Management */
+    .table-container { background: white; border-radius: var(--radius); box-shadow: var(--shadow-sm); overflow-x: auto; margin-top: 1.5rem; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; }
+    th { background: #f9fafb; padding: 1rem 1.5rem; font-weight: 600; color: var(--text); border-bottom: 1px solid #e5e7eb; }
+    td { padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; color: var(--text); vertical-align: middle; }
+    .btn-danger { background: #dc2626; color: white; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    /* Footer Container */
+    footer { background: #0b3d26; color: rgba(255,255,255,0.8); padding: 4rem 2rem; border-top: 4px solid var(--primary-light); font-size: 0.95rem; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; }
+    .footer-brand h4 { font-size: 1.25rem; color: white; margin-bottom: 1rem; }
+    .footer-links h5 { color: white; margin-bottom: 1rem; font-size: 1.05rem; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
+    .footer-links a:hover { color: white; }
+    .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      header { padding: 1rem; }
+      nav { display: none; } /* On premium setups mobile configurations can use simplified interaction layouts */
+      .hero h2 { font-size: 2.2rem; }
+      .admin-layout { grid-template-columns: 1fr; }
+      .admin-sidebar { display: none; }
     }
-    .nav-tabs .nav-link.active {
-      background-color: var(--primary-green);
-      color: white !important;
-    }
-    .role-section {
-      display: none;
-      border: 1px solid #dee2e6;
-      padding: 20px;
-      margin-bottom: 25px;
-      background: white;
-      border-radius: 8px;
-    }
-    footer { background-color: var(--dark-green); color: white; padding: 25px 0; }
   </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-green sticky-top">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="#" onclick="showSection('home-view')">
-        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Logo">
-        <span>Nangodi Health Centre</span>
-      </a>
-      <span id="connection-status" class="badge bg-success ms-2">Online</span>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showSection('home-view')">Home</a></li>
-          <li class="nav-item" id="nav-login"><a class="nav-link btn btn-light text-green fw-bold px-3 ms-2" href="#" onclick="showSection('login-view')">Staff Portal Login</a></li>
-          <li class="nav-item d-none" id="nav-dashboard"><a class="nav-link text-white fw-bold" href="#" onclick="showSection('dashboard-view')">My System Dashboard</a></li>
-          <li class="nav-item d-none" id="nav-logout"><a class="nav-link text-warning ms-2" href="#" onclick="handleLogout()">Logout</a></li>
+  <div id="offline-indicator" class="offline-bar">Operating in Offline Caching Mode. Form entries will sync automatically on restoration.</div>
+
+  <div id="public-shell">
+    <header>
+      <div class="brand-container">
+        <div class="logo-placeholder">NHS</div>
+        <div class="brand-text">
+          <h1>Nangodi Health Centre</h1>
+          <p>Primary Healthcare Excellence</p>
+        </div>
+      </div>
+      <nav>
+        <a onclick="setView('home')">Home</a>
+        <a onclick="setView('directory')">Staff Directory</a>
+        <a onclick="setView('news')">News</a>
+        <a onclick="setView('support')">Urgent Needs</a>
+        <a onclick="setView('gallery')">Gallery</a>
+        <a onclick="setView('feedback')">Feedback & Complaints</a>
+        <a onclick="setView('support')" class="btn-support-nav">Support Us</a>
+      </nav>
+    </header>
+
+    <div id="view-home" class="view-pane active">
+      <div class="hero">
+        <div class="hero-content">
+          <h2>Providing Premium Quality Healthcare to the Nangodi Community</h2>
+          <p>Welcome to your digital health platform. Accessible anywhere, anytime, completely engineered to function even when connectivity is down.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="setView('feedback')">File urgent Complaint</button>
+            <button class="btn btn-secondary" onclick="setView('support')">View Critical Support Needs</button>
+          </div>
+        </div>
+      </div>
+      
+      <section>
+        <h3 class="section-title">Our Foundations</h3>
+        <div class="grid">
+          <div class="card"><div class="card-body"><h4 class="card-title">Our Mission</h4><p class="card-desc">To deliver high-quality, accessible, and compassionate primary healthcare services to the people of Nangodi and surrounding communities through evidence-based practice and community integration.</p></div></div>
+          <div class="card"><div class="card-body"><h4 class="card-title">Our Vision</h4><p class="card-desc">To become a benchmark health facility in rural health operational delivery, optimizing modern digital tools and community tracking models.</p></div></div>
+          <div class="card"><div class="card-body"><h4 class="card-title">Core Services</h4><p class="card-desc">Outpatient care, Antenatal & Maternity services, Preventive Immunization, Community Outreach, Health Education, Pharmacy & Diagnostic Support.</p></div></div>
+        </div>
+      </section>
+    </div>
+
+    <div id="view-directory" class="view-pane">
+      <section>
+        <h3 class="section-title">Medical & Support Personnel</h3>
+        <div class="grid" id="public-staff-grid"></div>
+      </section>
+    </div>
+
+    <div id="view-news" class="view-pane">
+      <section>
+        <h3 class="section-title">Health Bulletins & Announcements</h3>
+        <div class="grid" id="public-news-grid"></div>
+      </section>
+    </div>
+
+    <div id="view-support" class="view-pane">
+      <section style="background: var(--secondary); border-radius: var(--radius); margin-top: 2rem; margin-bottom: 2rem;">
+        <h3 class="section-title" style="margin-left: 1.5rem; padding-top: 1.5rem;">Support Nangodi Health Centre</h3>
+        <p style="margin-left: 1.5rem; margin-bottom: 2rem; max-width: 800px; color: var(--text-muted)">Help us improve clinical service capability, build critical infrastructure, and reach outlying areas via our field operations. Explore our verified current needs catalogs below.</p>
+      </section>
+      <section>
+        <h3 class="section-title">Active Field Requirements</h3>
+        <div class="grid" id="public-support-grid"></div>
+      </section>
+    </div>
+
+    <div id="view-gallery" class="view-pane">
+      <section>
+        <h3 class="section-title">Facility & Outreach Gallery</h3>
+        <div class="grid" id="public-gallery-grid"></div>
+      </section>
+    </div>
+
+    <div id="view-feedback" class="view-pane">
+      <section style="max-width: 600px;">
+        <h3 class="section-title">Secure Feedback & Complaints Engine</h3>
+        <form id="complaintForm" onsubmit="handleComplaintSubmit(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" class="form-control" id="comp-name" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" class="form-control" id="comp-phone" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address (Optional)</label>
+            <input type="email" class="form-control" id="comp-email">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" id="comp-cat">
+              <option>General Enquiry</option>
+              <option>Clinical Service Complaint</option>
+              <option>Facility Suggestion</option>
+              <option>Staff Commendation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Detailed Message</label>
+            <textarea class="form-control" id="comp-msg" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Transmit Feedback securely</button>
+        </form>
+      </section>
+    </div>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h4>Nangodi Health Centre</h4>
+          <p>Providing essential medical services with transparency and technological innovation.</p>
+        </div>
+        <div class="footer-links">
+          <h5>Quick Actions</h5>
+          <ul>
+            <li><a onclick="setView('directory')">Staff Profiles</a></li>
+            <li><a onclick="setView('support')">Donations & Support</a></li>
+            <li><a onclick="setView('feedback')">Submit a Complaint</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Direct Inquiries</h5>
+          <p>Support Line: <strong>0598160732</strong></p>
+          <p>Location: Nabdam District, Upper East Region, Ghana</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Nangodi Health Centre. All Rights Reserved.</p>
+        <p style="opacity: 0.6; margin-top: 0.5rem;">Developed under UDS TTFPP Group 149 | Academic Year: 2025/2026</p>
+      </div>
+    </footer>
+  </div>
+
+  <div id="admin-auth-screen" class="view-pane" style="max-width: 400px; margin: 10% auto; padding: 2rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow-lg);">
+    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Secure Terminal Access</h3>
+    <form onsubmit="handleAdminLogin(event)">
+      <div class="form-group">
+        <label>Operator ID</label>
+        <input type="text" id="auth-user" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Security Key</label>
+        <input type="password" id="auth-pass" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%;">Authenticate Identity</button>
+    </form>
+  </div>
+
+  <div id="admin-dashboard-shell" class="view-pane">
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <h3>Nangodi Admin</h3>
+        <ul class="admin-menu">
+          <li class="active" onclick="setAdminSection('metrics')">Operational Metrics</li>
+          <li onclick="setAdminSection('staff')">Staff Directory</li>
+          <li onclick="setAdminSection('news')">News Feed</li>
+          <li onclick="setAdminSection('support')">Support Items</li>
+          <li onclick="setAdminSection('gallery')">Media Management</li>
+          <li onclick="setAdminSection('complaints')">Complaints Box</li>
+          <li onclick="logoutAdmin()" style="margin-top: 3rem; background: rgba(220,38,38,0.2);">Exit Terminal</li>
         </ul>
       </div>
-    </div>
-  </nav>
+      
+      <div class="admin-workspace">
+        <div id="admin-sec-metrics" class="admin-sub-view" style="display: block;">
+          <div class="admin-header-flex"><h2>Operational Matrix Center</h2></div>
+          <div class="metric-grid">
+            <div class="metric-card"><h4>Active Staff Records</h4><p id="m-staff">0</p></div>
+            <div class="metric-card"><h4>Published Articles</h4><p id="m-news">0</p></div>
+            <div class="metric-card"><h4>Open Incidents</h4><p id="m-comp">0</p></div>
+            <div class="metric-card"><h4>Active Support Target Campaigns</h4><p id="m-support">0</p></div>
+          </div>
+        </div>
 
-  <main class="container my-4 min-vh-100">
-    
-    <section id="home-view" class="view-section">
-      <div class="hero-banner rounded mb-4">
-        <h1 class="display-4 fw-bold">Nangodi Health Centre</h1>
-        <p class="lead">Providing Professional, Reliable, and Accessible Healthcare Records Management.</p>
-        <button class="btn btn-light btn-lg text-green fw-bold mt-3" onclick="showSection('login-view')">Access Staff Workstation</button>
-      </div>
-
-      <div class="row g-4">
-        <div class="col-md-7">
-          <h3 class="text-green border-bottom pb-2">News & Public Announcements</h3>
-          <div id="announcements-container">
-            <div class="card mb-3 shadow-sm">
-              <div class="card-body">
-                <span class="badge bg-green mb-2">Notice</span>
-                <h5 class="card-title">Welcome to the Digital Records Portal</h5>
-                <p class="card-text">Nangodi Health Centre staff records system operates in real-time, functioning completely offline when field networks fall offline.</p>
-                <small class="text-muted">Posted: June 21, 2026</small>
-              </div>
+        <div id="admin-sec-staff" class="admin-sub-view" style="display: none;">
+          <div class="admin-header-flex"><h2>Personnel Management</h2></div>
+          <form id="addStaffForm" onsubmit="handleAdminAddStaff(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <input type="text" id="st-name" placeholder="Staff Name" class="form-control" required>
+              <input type="text" id="st-pos" placeholder="Position (e.g. Midwife)" class="form-control" required>
+              <input type="text" id="st-dept" placeholder="Department" class="form-control" required>
+              <input type="text" id="st-prof" placeholder="Brief Professional Profile Description" class="form-control" required>
+              <input type="file" id="st-file" class="form-control" accept="image/*" required>
             </div>
-          </div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; margin-top: 1rem;">Register Core Personnel</button>
+          </form>
+          <div class="table-container"><table><thead><tr><th>Name</th><th>Position</th><th>Department</th><th>Action</th></tr></thead><tbody id="admin-staff-table"></tbody></table></div>
         </div>
-        
-        <div class="col-md-5">
-          <div class="card p-4 shadow-sm border-0 bg-light">
-            <h4 class="text-green mb-3">Complaints & Suggestions</h4>
-            <form id="complaintForm" onsubmit="handleComplaintSubmit(event)">
-              <div class="mb-3">
-                <label class="form-label">Submission Type</label>
-                <select class="form-select" id="comp-type" required>
-                  <option value="Suggestion">Suggestion</option>
-                  <option value="Complaint">Complaint</option>
-                  <option value="Feedback">Service Feedback</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Elaborate details</label>
-                <textarea class="form-control" id="comp-content" rows="4" placeholder="Type here..." required></textarea>
-              </div>
-              <button type="submit" class="btn btn-green w-100">Submit Anonymously</button>
-            </form>
-          </div>
+
+        <div id="admin-sec-news" class="admin-sub-view" style="display: none;">
+          <div class="admin-header-flex"><h2>Publish System Broadcasts</h2></div>
+          <form id="addNewsForm" onsubmit="handleAdminAddNews(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+            <div class="form-group"><input type="text" id="ns-title" placeholder="Article / Update Title" class="form-control" required></div>
+            <div class="form-group"><textarea id="ns-content" placeholder="Content Body" class="form-control" rows="4" required></textarea></div>
+            <div class="form-group"><label>Attach Media File</label><input type="file" id="ns-file" class="form-control" accept="image/*" required></div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white;">Broadcast Article</button>
+          </form>
+          <div class="table-container"><table><thead><tr><th>Broadcast Title</th><th>Timestamp</th><th>Action</th></tr></thead><tbody id="admin-news-table"></tbody></table></div>
         </div>
-      </div>
-    </section>
 
-    <section id="login-view" class="view-section d-none" style="max-width: 450px; margin: 60px auto;">
-      <div class="card p-4 shadow">
-        <div class="text-center mb-4">
-          <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" height="60" alt="Logo">
-          <h3 class="text-green mt-2">Staff Authentication</h3>
-        </div>
-        <form id="loginForm" onsubmit="handleLoginSubmit(event)">
-          <div class="mb-3">
-            <label class="form-label">User ID</label>
-            <input type="text" class="form-control" id="login-uid" required placeholder="Enter User ID">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Secret Password</label>
-            <input type="password" class="form-control" id="login-pwd" required placeholder="••••••••">
-          </div>
-          <button type="submit" class="btn btn-green w-100 py-2">Log In To Workstation</button>
-        </form>
-      </div>
-    </section>
-
-    <section id="dashboard-view" class="view-section d-none">
-      <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
-        <div>
-          <h2 class="text-green m-0">Staff Workspace Portal</h2>
-          <p class="text-muted m-0">Logged In User: <strong id="user-display-name">N/A</strong></p>
-        </div>
-        <button class="btn btn-warning fw-bold" onclick="triggerManualSync()">🔄 Sync Local Data to Cloud</button>
-      </div>
-
-      <div class="row g-3 mb-4 text-center">
-        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter"><h6>Total Records</h6><h3 id="m-total">0</h3></div></div>
-        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-success"><h6>Created Today</h6><h3 id="m-today">0</h3></div></div>
-        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-warning"><h6>Pending Sync</h6><h3 id="m-pending">0</h3></div></div>
-        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-info"><h6>Synced Cloud</h6><h3 id="m-synced">0</h3></div></div>
-      </div>
-
-      <div id="role-admin-sec" class="role-section">
-        <h4 class="text-danger border-bottom pb-2">🛡️ Administrator Management Dashboard</h4>
-        <div class="row g-3 my-2">
-          <div class="col-md-4">
-            <h5>Create Announcement</h5>
-            <form onsubmit="adminCreateAnn(event)" class="bg-light p-3 rounded">
-              <input type="text" id="ann-title" class="form-control mb-2" placeholder="Title" required>
-              <textarea id="ann-desc" class="form-control mb-2" placeholder="Announcement Details" required></textarea>
-              <button type="submit" class="btn btn-danger btn-sm w-100">Publish Notice</button>
-            </form>
-          </div>
-          <div class="col-md-8">
-            <h5>Complaints Logs View</h5>
-            <div class="table-responsive bg-light p-2 rounded" style="max-height: 180px;">
-              <table class="table table-sm table-striped">
-                <thead><tr><th>Type</th><th>Content</th></tr></thead>
-                <tbody id="admin-complaints-table"></tbody>
-              </table>
+        <div id="admin-sec-support" class="admin-sub-view" style="display: none;">
+          <div class="admin-header-flex"><h2>Support Campaigns Manager</h2></div>
+          <form id="addSupportForm" onsubmit="handleAdminAddSupport(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <input type="text" id="sp-title" placeholder="Campaign Objective Target Title" class="form-control" required>
+              <input type="text" id="sp-desc" placeholder="Comprehensive Impact Statement Description" class="form-control" required>
+              <select id="sp-cat" class="form-control">
+                <option>Infrastructure Development</option><option>Medical Equipment</option><option>Medicines and Medical Supplies</option><option>Ambulance Support</option><option>Solar Power Projects</option>
+              </select>
+              <input type="text" id="sp-target" placeholder="Financial Estimate Baseline / Contact Target Info" class="form-control" required>
+              <input type="file" id="sp-file" class="form-control" accept="image/*" required>
             </div>
-          </div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; margin-top: 1rem;">Deploy Support Campaign Tracker</button>
+          </form>
+          <div class="table-container"><table><thead><tr><th>Campaign</th><th>Category</th><th>Target Details</th><th>Action</th></tr></thead><tbody id="admin-support-table"></tbody></table></div>
         </div>
-      </div>
 
-      <div id="role-nurse-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">🧑‍⚕️ Nursing Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'Nursing')" class="row g-2 mb-3">
-          <div class="col-md-3"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
-          <div class="col-md-2"><input type="number" class="form-control" name="age" placeholder="Age" required></div>
-          <div class="col-md-3"><input type="text" class="form-control" name="vitals" placeholder="Vitals (BP, Temp)" required></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="notes" placeholder="General Nursing Notes" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Nursing Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Age</th><th>Vitals</th><th>Notes</th><th>Actions</th></tr></thead><tbody id="table-Nursing"></tbody></table></div>
-      </div>
+        <div id="admin-sec-gallery" class="admin-sub-view" style="display: none;">
+          <div class="admin-header-flex"><h2>Gallery Controller</h2></div>
+          <form id="addGalleryForm" onsubmit="handleAdminAddGallery(event)" style="background: white; padding: 1.5rem; border-radius: var(--radius); margin-bottom: 2rem;">
+            <div class="form-group"><input type="file" id="gal-file" class="form-control" accept="image/*" required></div>
+            <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white;">Push Media Stream Instance</button>
+          </form>
+          <div class="table-container"><table><thead><tr><th>Image Reference ID</th><th>Timestamp</th><th>Action</th></tr></thead><tbody id="admin-gallery-table"></tbody></table></div>
+        </div>
 
-      <div id="role-midwife-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">🤰 Midwifery Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'Midwifery')" class="row g-2 mb-3">
-          <div class="col-md-4"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
-          <div class="col-md-4"><select class="form-select" name="ancType"><option>ANC Visit</option><option>Delivery Record</option><option>Postnatal Care</option></select></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="details" placeholder="Obstetrics Details Summary" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Midwifery Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Type</th><th>Details</th><th>Actions</th></tr></thead><tbody id="table-Midwifery"></tbody></table></div>
-      </div>
-
-      <div id="role-chn-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">🚲 Community Health Nurse (CHN) Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'CHN')" class="row g-2 mb-3">
-          <div class="col-md-4"><select class="form-select" name="activity"><option>Outreach Campaign</option><option>Immunization Session</option><option>Home Health Visit</option></select></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="location" placeholder="Community / Village Name" required></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="details" placeholder="Intervention Details" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save CHN Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Activity</th><th>Location</th><th>Details</th><th>Actions</th></tr></thead><tbody id="table-CHN"></tbody></table></div>
-      </div>
-
-      <div id="role-cho-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">🏡 Community Health Officer (CHO) Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'CHO')" class="row g-2 mb-3">
-          <div class="col-md-4"><input type="text" class="form-control" name="serviceType" placeholder="Community Service Form Description" required></div>
-          <div class="col-md-8"><input type="text" class="form-control" name="surveillanceData" placeholder="Epidemiological Surveillance Log Entries" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save CHO Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Service Type</th><th>Surveillance Data</th><th>Actions</th></tr></thead><tbody id="table-CHO"></tbody></table></div>
-      </div>
-
-      <div id="role-pa-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">📋 Physician Assistant Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'PhysicianAssistant')" class="row g-2 mb-3">
-          <div class="col-md-4"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="diagnosis" placeholder="Primary Diagnosis" required></div>
-          <div class="col-md-4"><input type="text" class="form-control" name="treatment" placeholder="Treatment Plan Protocol" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Clinical Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Diagnosis</th><th>Treatment</th><th>Actions</th></tr></thead><tbody id="table-PhysicianAssistant"></tbody></table></div>
-      </div>
-
-      <div id="role-pharmacy-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">💊 Pharmacy & Logistics Module</h4>
-        <form onsubmit="handleRecordSubmit(event, 'Pharmacy')" class="row g-2 mb-3">
-          <div class="col-md-4"><input type="text" class="form-control" name="medicineName" placeholder="Medicine / Drug Name" required></div>
-          <div class="col-md-3"><input type="number" class="form-control" name="quantity" placeholder="Quantity" required></div>
-          <div class="col-md-5"><select class="form-select" name="actionType"><option>Dispensed to Patient</option><option>Stock Inventory Inbound Update</option></select></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Pharmacy Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Medicine</th><th>Qty</th><th>Action Type</th><th>Actions</th></tr></thead><tbody id="table-Pharmacy"></tbody></table></div>
-      </div>
-
-      <div id="role-lab-sec" class="role-section">
-        <h4 class="text-green border-bottom pb-2">🔬 Laboratory Services</h4>
-        <form onsubmit="handleRecordSubmit(event, 'Laboratory')" class="row g-2 mb-3">
-          <div class="col-md-5"><input type="text" class="form-control" name="testType" placeholder="Investigation / Test Type Request" required></div>
-          <div class="col-md-7"><input type="text" class="form-control" name="result" placeholder="Laboratory Findings / Outbound Result" required></div>
-          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Laboratory Entry</button></div>
-        </form>
-        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Test Type</th><th>Result Findings</th><th>Actions</th></tr></thead><tbody id="table-Laboratory"></tbody></table></div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer class="text-center">
-    <div class="container">
-      <p class="m-0 fw-bold">Developed by UDS TTFPP Group 149</p>
-      <p class="m-0 style-italic small">Academic Year: 2025/2026</p>
-      <div class="mt-2 text-white-50 small">
-        <span>Support Technical Helpline Contact: <strong>0598160732</strong></span>
+        <div id="admin-sec-complaints" class="admin-sub-view" style="display: none;">
+          <div class="admin-header-flex"><h2>Citizen Complaints Vault</h2></div>
+          <div class="table-container"><table><thead><tr><th>Sender</th><th>Contact</th><th>Category</th><th>Message Block</th><th>Status</th><th>Action</th></tr></thead><tbody id="admin-complaints-table"></tbody></table></div>
+        </div>
       </div>
     </div>
-  </footer>
+  </div>
 
   <script>
-    // Configuration Endpoint URL: Replace with your actual deployed Apps Script Executable Link
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzM3bvibXRxDJ1ICJ9gvQYdHMPAlNyy5VTViTwQWSZkPy1dqXBG5JyVXGeE4c2G44qI/exec";
-    
-    let db = null;
-    let currentUser = null;
-    const MODULES = ['Nursing', 'Midwifery', 'CHN', 'CHO', 'PhysicianAssistant', 'Pharmacy', 'Laboratory'];
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log("Premium PWA Service Engine Engaged Active."))
+    .catch(err => console.error("PWA Engine Configuration Fault:", err));
+}
 
-    // Initialize System Architecture on Load
-    window.addEventListener('DOMContentLoaded', () => {
-      initIndexedDB();
-      initNetworkListeners();
-      registerServiceWorker();
+    // CORE GLOBAL APP ARCHITECTURE PROPERTIES
+    // PASTE YOUR GOOGLE DEPLOYED WEB APP URL DIRECTLY HERE BELOW
+    const BACKEND_API_URL = "https://script.google.com/macros/s/AKfycbyGIGRZvA_sB6OnqSQ5yotCZrN46omOh98KC-uM87_JDpq574rpK8safLs-ee5TvQF_/exec";
+    
+    let localDB = { Staff: [], News: [], Complaints: [], Support: [], Gallery: [] };
+    let indexedDatabaseInstance = null;
+
+    // View Engine Core Router Implementation
+    function setView(viewName) {
+      document.getElementById('public-shell').style.display = 'block';
+      document.getElementById('admin-auth-screen').style.display = 'none';
+      document.getElementById('admin-dashboard-shell').style.display = 'none';
+      
+      document.querySelectorAll('.view-pane').forEach(el => el.classList.remove('active'));
+      const activeView = document.getElementById(`view-${viewName}`);
+      if (activeView) activeView.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Capture Secret Route Changes For Hiding Administration Panels
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash === '#admin-panel') {
+        document.getElementById('public-shell').style.display = 'none';
+        document.getElementById('admin-dashboard-shell').style.display = 'none';
+        document.getElementById('admin-auth-screen').style.display = 'block';
+      } else if (window.location.hash === '') {
+        setView('home');
+      }
     });
 
-    function initIndexedDB() {
-      const request = indexedDB.open('NangodiHealthDB', 1);
-      request.onupgradeneeded = (e) => {
-        const database = e.target.result;
-        // Primary Core Modules Tables Stores
-        MODULES.forEach(mod => {
-          database.createObjectStore(mod, { keyPath: 'id' });
-        });
-        // Administration auxiliary stores
-        database.createObjectStore('Announcements', { keyPath: 'id' });
-        database.createObjectStore('Complaints', { keyPath: 'id' });
-        database.createObjectStore('Users', { keyPath: 'userId' });
-      };
-
-      request.onsuccess = (e) => {
-        db = e.target.result;
-        seedFallbackUserData();
-        loadAnnouncementsUI();
-      };
-    }
-
-    function seedFallbackUserData() {
-      // Injects a localized administrative superuser mapping containing access privileges for every medical division
-      const tx = db.transaction('Users', 'readwrite');
-      const store = tx.objectStore('Users');
-      store.put({
-        userId: "admin01",
-        password: "password123",
-        name: "Super Admin (All Roles)",
-        roles: "Administrator,Nurse,Midwife,CHN,CHO,Physician Assistant,Pharmacy,Laboratory"
-      });
-    }
-
-    function initNetworkListeners() {
-      const status = document.getElementById('connection-status');
-      window.addEventListener('online', () => { status.className = "badge bg-success ms-2"; status.innerText = "Online"; });
-      window.addEventListener('offline', () => { status.className = "badge bg-danger ms-2"; status.innerText = "Offline"; });
-      if(!navigator.onLine) { status.className = "badge bg-danger ms-2"; status.innerText = "Offline"; }
-    }
-
-    function registerServiceWorker() {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log("SW Reg failed", err));
+    // Initialize Local Engine Architecture Components
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeIndexedDB();
+      if (window.location.hash === '#admin-panel') {
+        document.getElementById('public-shell').style.display = 'none';
+        document.getElementById('admin-auth-screen').style.display = 'block';
       }
-    }
+      
+      // Online Monitor Hooks
+      window.addEventListener('online', syncSystemDataPipeline);
+      window.addEventListener('offline', () => { document.getElementById('offline-indicator').style.display = 'block'; });
+      if(!navigator.onLine) document.getElementById('offline-indicator').style.display = 'block';
+    });
 
-    // Router SPA View Changer
-    function showSection(id) {
-      document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('d-none'));
-      document.getElementById(id).classList.remove('d-none');
-      window.scrollTo(0,0);
-    }
-
-    // Authentication Engine Logic
-    function handleLoginSubmit(e) {
-      e.preventDefault();
-      const uid = document.getElementById('login-uid').value;
-      const psw = document.getElementById('login-pwd').value;
-
-      const tx = db.transaction('Users', 'readonly');
-      const store = tx.objectStore('Users');
-      const req = store.get(uid);
-
-      req.onsuccess = () => {
-        const user = req.result;
-        if(user && user.password === psw) {
-          currentUser = user;
-          document.getElementById('user-display-name').innerText = user.name;
-          document.getElementById('nav-login').classList.add('d-none');
-          document.getElementById('nav-dashboard').classList.remove('d-none');
-          document.getElementById('nav-logout').classList.remove('d-none');
-          
-          evaluateRoleUIViews(user.roles);
-          showSection('dashboard-view');
-          loadAllDepartmentalRecords();
-        } else {
-          alert("Invalid Identification Credentials or Password Match Fail.");
-        }
+    // IndexedDB Technical Management Layer Code
+    function initializeIndexedDB() {
+      const request = indexedDB.open("NangodiHealthDB", 1);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        db.createObjectStore("cachedData", { keyPath: "type" });
+        db.createObjectStore("outboxQueue", { keyPath: "id", autoIncrement: true });
+      };
+      request.onsuccess = (event) => {
+        indexedDatabaseInstance = event.target.result;
+        loadSystemCacheContext();
       };
     }
 
-    function handleLogout() {
-      currentUser = null;
-      document.getElementById('nav-login').classList.remove('d-none');
-      document.getElementById('nav-dashboard').classList.add('d-none');
-      document.getElementById('nav-logout').classList.add('d-none');
-      showSection('home-view');
+    function saveContextToLocalStorageCache(type, dataArray) {
+      if (!indexedDatabaseInstance) return;
+      const tx = indexedDatabaseInstance.transaction("cachedData", "readwrite");
+      tx.objectStore("cachedData").put({ type: type, payload: dataArray });
     }
 
-    // Role Profiler Evaluation Rule Matrix
-    function evaluateRoleUIViews(rolesString) {
-      // Hide all beforehand
-      document.querySelectorAll('.role-section').forEach(s => s.style.display = 'none');
+    function loadSystemCacheContext() {
+      if (!indexedDatabaseInstance) return;
+      const tx = indexedDatabaseInstance.transaction("cachedData", "readonly");
+      const store = tx.objectStore("cachedData");
       
-      const roles = rolesString.split(',');
-      if(roles.includes('Administrator')) document.getElementById('role-admin-sec').style.display = 'block';
-      if(roles.includes('Nurse')) document.getElementById('role-nurse-sec').style.display = 'block';
-      if(roles.includes('Midwife')) document.getElementById('role-midwife-sec').style.display = 'block';
-      if(roles.includes('CHN')) document.getElementById('role-chn-sec').style.display = 'block';
-      if(roles.includes('CHO')) document.getElementById('role-cho-sec').style.display = 'block';
-      if(roles.includes('Physician Assistant')) document.getElementById('role-pa-sec').style.display = 'block';
-      if(roles.includes('Pharmacy')) document.getElementById('role-pharmacy-sec').style.display = 'block';
-      if(roles.includes('Laboratory')) document.getElementById('role-lab-sec').style.display = 'block';
-    }
-
-    // Transaction Engine CRUD Submitter
-    function handleRecordSubmit(e, targetStore) {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
+      const tables = ['Staff', 'News', 'Complaints', 'Support', 'Gallery'];
+      let loadedCount = 0;
       
-      const record = {
-        id: targetStore.substring(0,3).toUpperCase() + "-" + Date.now(),
-        userId: currentUser.userId,
-        timestamp: new Date().toISOString(),
-        synced: 0
-      };
-
-      formData.forEach((value, key) => { record[key] = value; });
-
-      const tx = db.transaction(targetStore, 'readwrite');
-      tx.objectStore(targetStore).put(record);
-      
-      tx.oncomplete = () => {
-        form.reset();
-        loadAllDepartmentalRecords();
-      };
-    }
-
-    function deleteDraftRecord(id, targetStore) {
-      const tx = db.transaction(targetStore, 'readwrite');
-      tx.objectStore(targetStore).delete(id);
-      tx.oncomplete = () => { loadAllDepartmentalRecords(); };
-    }
-
-    // Aggregates Lists Views and updates Analytics Metrics Realtime
-    function loadAllDepartmentalRecords() {
-      let grandTotal = 0;
-      let syncPendingCount = 0;
-      let cloudSyncedCount = 0;
-      let createdTodayCount = 0;
-
-      const todayStr = new Date().toISOString().split('T')[0];
-
-      MODULES.forEach(mod => {
-        const tx = db.transaction(mod, 'readonly');
-        const store = tx.objectStore(mod);
-        const req = store.getAll();
-
+      tables.forEach(table => {
+        const req = store.get(table);
         req.onsuccess = () => {
-          const records = req.result;
-          const tbody = document.getElementById(`table-${mod}`);
-          if(!tbody) return;
-          tbody.innerHTML = "";
-
-          records.forEach(rec => {
-            grandTotal++;
-            if(rec.synced === 1) cloudSyncedCount++; else syncPendingCount++;
-            if(rec.timestamp.startsWith(todayStr)) createdTodayCount++;
-
-            // Render dynamic table rows based on modular structural configurations
-            let rowMeta = `<td>${rec.id}</td>`;
-            if(mod === 'Nursing') rowMeta = `<td>${rec.patientName}</td><td>${rec.age}</td><td>${rec.vitals}</td><td>${rec.notes}</td>`;
-            else if(mod === 'Midwifery') rowMeta = `<td>${rec.patientName}</td><td>${rec.ancType}</td><td>${rec.details}</td>`;
-            else if(mod === 'CHN') rowMeta = `<td>${rec.activity}</td><td>${rec.location}</td><td>${rec.details}</td>`;
-            else if(mod === 'CHO') rowMeta = `<td>${rec.serviceType}</td><td>${rec.surveillanceData}</td>`;
-            else if(mod === 'PhysicianAssistant') rowMeta = `<td>${rec.patientName}</td><td>${rec.diagnosis}</td><td>${rec.treatment}</td>`;
-            else if(mod === 'Pharmacy') rowMeta = `<td>${rec.medicineName}</td><td>${rec.quantity}</td><td>${rec.actionType}</td>`;
-            else if(mod === 'Laboratory') rowMeta = `<td>${rec.testType}</td><td>${rec.result}</td>`;
-
-            const syncBadge = rec.synced === 1 ? '<span class="badge bg-success">Synced</span>' : '<span class="badge bg-warning">Draft</span>';
-            const actionBtn = rec.synced === 0 ? `<button class="btn btn-danger btn-xs py-0 px-1" onclick="deleteDraftRecord('${rec.id}', '${mod}')">Delete</button>` : '';
-
-            tbody.innerHTML += `<tr>${rowMeta}<td>${syncBadge} ${actionBtn}</td></tr>`;
-          });
-
-          // Metrics update
-          document.getElementById('m-total').innerText = grandTotal;
-          document.getElementById('m-today').innerText = createdTodayCount;
-          document.getElementById('m-pending').innerText = syncPendingCount;
-          document.getElementById('m-synced').innerText = cloudSyncedCount;
+          if (req.result) {
+            localDB[table] = req.result.payload;
+          }
+          loadedCount++;
+          if (loadedCount === tables.length) {
+            renderPublicInterfaceElements();
+            if(navigator.onLine) fetchLatestDataFromCloudEngine();
+          }
         };
       });
-      
-      // Load complaints if user is administrator
-      if(currentUser && currentUser.roles.includes('Administrator')) {
-        const txComp = db.transaction('Complaints', 'readonly');
-        txComp.objectStore('Complaints').getAll().onsuccess = (e) => {
-          const compTable = document.getElementById('admin-complaints-table');
-          compTable.innerHTML = "";
-          e.target.result.forEach(c => {
-            compTable.innerHTML += `<tr><td><strong>${c.type}</strong></td><td>${c.content}</td></tr>`;
-          });
-        };
-      }
     }
 
-    // Public Feedback Submit Framework
+    // API Pipeline Interaction
+    function fetchLatestDataFromCloudEngine() {
+      if(BACKEND_API_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL") return;
+      fetch(BACKEND_API_URL)
+        .then(res => res.json())
+        .then(response => {
+          if(response.success) {
+            localDB = response.data;
+            Object.keys(response.data).forEach(key => {
+              saveContextToLocalStorageCache(key, response.data[key]);
+            });
+            renderPublicInterfaceElements();
+            calculateOperationalMetrics();
+          }
+        }).catch(err => console.log("Cloud extraction offline. Reverting safely to cached storage indexes.", err));
+    }
+
+    // Process Public Client Elements UI Framework Rendering
+    function renderPublicInterfaceElements() {
+      document.getElementById('offline-indicator').style.display = navigator.onLine ? 'none' : 'block';
+      
+      // Render Staff Core Catalog View
+      const staffGrid = document.getElementById('public-staff-grid');
+      staffGrid.innerHTML = localDB.Staff.map(s => `
+        <div class="card">
+          <img src="${s.photo || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Staff Profile Photo">
+          <div class="card-body">
+            <span class="card-tag">${s.department}</span>
+            <h4 class="card-title">${s.name}</h4>
+            <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.position}</p>
+            <p class="card-desc">${s.profile}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Dynamic News Core Engine (CRITICAL: NEWEST ENTRIES ON TOP)
+      const sortedNews = [...localDB.News].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      const newsGrid = document.getElementById('public-news-grid');
+      newsGrid.innerHTML = sortedNews.map(n => `
+        <div class="card">
+          <img src="${n.image || 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="News Image Context">
+          <div class="card-body">
+            <span class="card-tag">${new Date(n.timestamp).toLocaleDateString()}</span>
+            <h4 class="card-title">${n.title}</h4>
+            <p class="card-desc">${n.content}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Support / Campaign Platform Infrastructure Modules
+      const supportGrid = document.getElementById('public-support-grid');
+      supportGrid.innerHTML = localDB.Support.map(sp => `
+        <div class="card">
+          <img src="${sp.image || 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Campaign Image Context">
+          <div class="card-body">
+            <span class="card-tag">${sp.category}</span>
+            <h4 class="card-title">${sp.title}</h4>
+            <p class="card-desc">${sp.description}</p>
+            <p style="font-size:0.85rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Urgent Requirement Status Target: ${sp.target}</p>
+            <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '40%'}"></div></div>
+            <p style="font-size:0.8rem; font-weight:600; color:var(--text-muted);">Status: ${sp.status}</p>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Community Gallery Element Stream Architecture
+      const galleryGrid = document.getElementById('public-gallery-grid');
+      galleryGrid.innerHTML = localDB.Gallery.map(g => `
+        <div class="card">
+          <img src="${g.image}" class="card-img" style="height:250px;" alt="Gallery Media Container Asset">
+        </div>
+      `).join('');
+    }
+
+    // Handle Public Feedback Submissions Pipeline Architecture
     function handleComplaintSubmit(e) {
       e.preventDefault();
-      const comp = {
-        id: "CMP-" + Date.now(),
-        type: document.getElementById('comp-type').value,
-        content: document.getElementById('comp-content').value,
-        timestamp: new Date().toISOString()
+      const payload = {
+        action: 'addComplaint',
+        name: document.getElementById('comp-name').value,
+        phone: document.getElementById('comp-phone').value,
+        email: document.getElementById('comp-email').value,
+        category: document.getElementById('comp-cat').value,
+        message: document.getElementById('comp-msg').value
       };
 
-      const tx = db.transaction('Complaints', 'readwrite');
-      tx.objectStore('Complaints').put(comp);
-      tx.oncomplete = () => {
-        alert("Thank you. Feedback logged locally. Will be transmitted to administrators.");
-        document.getElementById('complaintForm').reset();
+      if (navigator.onLine) {
+        transmitPayloadDirectlyToCloudAPI(payload, () => {
+          alert("Submission dispatched successfully to administration backend layer.");
+          document.getElementById('complaintForm').reset();
+          fetchLatestDataFromCloudEngine();
+        });
+      } else {
+        stagePayloadInOutboxQueue(payload);
+      }
+    }
+
+    function stagePayloadInOutboxQueue(payload) {
+      const tx = indexedDatabaseInstance.transaction("outboxQueue", "readwrite");
+      tx.objectStore("outboxQueue").add(payload);
+      alert("Terminal Operating Offline. Data stored locally inside secure device engine storage sandbox. Sync runs when connection returns.");
+      document.getElementById('complaintForm').reset();
+    }
+
+    function syncSystemDataPipeline() {
+      document.getElementById('offline-indicator').style.display = 'none';
+      const tx = indexedDatabaseInstance.transaction("outboxQueue", "readwrite");
+      const store = tx.objectStore("outboxQueue");
+      const req = store.getAll();
+      
+      req.onsuccess = () => {
+        const queuedItems = req.result;
+        if(queuedItems.length === 0) { fetchLatestDataFromCloudEngine(); return; }
         
-        // Online network processing proxy forwarding
-        if(navigator.onLine && APPS_SCRIPT_URL !== "") {
-          fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ action: "submitComplaint", payload: comp })
+        let processedCount = 0;
+        queuedItems.forEach(item => {
+          const itemId = item.id;
+          delete item.id; // clear system index key reference
+          transmitPayloadDirectlyToCloudAPI(item, () => {
+            const deleteTx = indexedDatabaseInstance.transaction("outboxQueue", "readwrite");
+            deleteTx.objectStore("outboxQueue").delete(itemId);
+            processedCount++;
+            if(processedCount === queuedItems.length) fetchLatestDataFromCloudEngine();
           });
-        }
+        });
       };
     }
 
-    // Administrative Publish notice action rules
-    function adminCreateAnn(e) {
+    function transmitPayloadDirectlyToCloudAPI(payload, successCallback) {
+      fetch(BACKEND_API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(() => successCallback())
+        .catch(err => console.error("Network synchronization drop fault detected", err));
+    }
+
+    // SECURE LOCAL NATIVE MANAGEMENT DESK IMPLEMENTATION MODULES
+    function handleAdminLogin(e) {
       e.preventDefault();
-      const ann = {
-        id: "ANN-" + Date.now(),
-        title: document.getElementById('ann-title').value,
-        content: document.getElementById('ann-desc').value,
-        type: "Notice",
-        date: new Date().toLocaleDateString()
-      };
-
-      const tx = db.transaction('Announcements', 'readwrite');
-      tx.objectStore('Announcements').put(ann);
-      tx.oncomplete = () => {
-        alert("Notice published successfully.");
-        document.getElementById('ann-title').value = "";
-        document.getElementById('ann-desc').value = "";
-        loadAnnouncementsUI();
-      };
+      const user = document.getElementById('auth-user').value;
+      const pass = document.getElementById('auth-pass').value;
+      
+      fetch(BACKEND_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'login', username: user, password: pass })
+      }).then(res => res.json())
+        .then(res => {
+          if(res.success) {
+            document.getElementById('admin-auth-screen').style.display = 'none';
+            document.getElementById('admin-dashboard-shell').style.display = 'block';
+            setAdminSection('metrics');
+            calculateOperationalMetrics();
+            renderManagementTables();
+          } else { alert("Authentication Access Denied. Verify Security Token Context Key."); }
+        });
     }
 
-    function loadAnnouncementsUI() {
-      const tx = db.transaction('Announcements', 'readonly');
-      tx.objectStore('Announcements').getAll().onsuccess = (e) => {
-        const list = e.target.result;
-        if(list.length === 0) return;
-        const cont = document.getElementById('announcements-container');
-        cont.innerHTML = "";
-        list.reverse().forEach(ann => {
-          cont.innerHTML += `
-            <div class="card mb-3 shadow-sm">
-              <div class="card-body">
-                <span class="badge bg-green mb-2">${ann.type}</span>
-                <h5 class="card-title">${ann.title}</h5>
-                <p class="card-text">${ann.content}</p>
-                <small class="text-muted">Date: ${ann.date}</small>
-              </div>
-            </div>`;
-        });
-      };
+    function logoutAdmin() {
+      window.location.hash = '';
+      setView('home');
     }
 
-    // Cloud Data Sync Engine
-    async function triggerManualSync() {
-      if(!navigator.onLine) {
-        alert("Error: Internet Connection unavailable. Reconnect to sync with cloud sheets.");
-        return;
-      }
-      
-      alert("Starting Synchronization Process...");
+    function setAdminSection(secName) {
+      document.querySelectorAll('.admin-sub-view').forEach(el => el.style.display = 'none');
+      document.getElementById(`admin-sec-${secName}`).style.display = 'block';
+      document.querySelectorAll('.admin-menu li').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+    }
 
-      for (const mod of MODULES) {
-        const tx = db.transaction(mod, 'readonly');
-        const store = tx.objectStore(mod);
-        const records = await new Promise(resolve => {
-          store.getAll().onsuccess = (e) => resolve(e.target.result);
+    function calculateOperationalMetrics() {
+      document.getElementById('m-staff').innerText = localDB.Staff.length;
+      document.getElementById('m-news').innerText = localDB.News.length;
+      document.getElementById('m-comp').innerText = localDB.Complaints.filter(c => c.status === 'Pending').length;
+      document.getElementById('m-support').innerText = localDB.Support.length;
+    }
+
+    // Helper Utility for Handling Image Upload Streams Electronically
+    function convertFileInputToBase64Stream(inputElement, callback) {
+      if (inputElement.files && inputElement.files[0]) {
+        const FR = new FileReader();
+        FR.addEventListener("load", (evt) => callback(evt.target.result));
+        FR.readAsDataURL(inputElement.files[0]);
+      } else { callback(""); }
+    }
+
+    // Admin Add Resource Operators
+    function handleAdminAddStaff(e) {
+      e.preventDefault();
+      convertFileInputToBase64Stream(document.getElementById('st-file'), (base64String) => {
+        const payload = [
+          document.getElementById('st-name').value,
+          document.getElementById('st-pos').value,
+          document.getElementById('st-dept').value,
+          document.getElementById('st-prof').value,
+          base64String
+        ];
+        executeAdminWriteTransaction('Staff', 'insert', payload, () => {
+          document.getElementById('addStaffForm').reset();
+          fetchLatestDataFromCloudEngine();
         });
+      });
+    }
 
-        const unSyncedRecords = records.filter(r => r.synced === 0);
+    function handleAdminAddNews(e) {
+      e.preventDefault();
+      convertFileInputToBase64Stream(document.getElementById('ns-file'), (base64String) => {
+        const payload = [
+          document.getElementById('ns-title').value,
+          document.getElementById('ns-content').value,
+          base64String
+        ];
+        executeAdminWriteTransaction('News', 'insert', payload, () => {
+          document.getElementById('addNewsForm').reset();
+          fetchLatestDataFromCloudEngine();
+        });
+      });
+    }
 
-        if(unSyncedRecords.length > 0) {
-          try {
-            const payload = {
-              action: "syncRecords",
-              sheetName: mod,
-              records: unSyncedRecords
-            };
+    function handleAdminAddSupport(e) {
+      e.preventDefault();
+      convertFileInputToBase64Stream(document.getElementById('sp-file'), (base64String) => {
+        const payload = [
+          document.getElementById('sp-title').value,
+          document.getElementById('sp-desc').value,
+          document.getElementById('sp-cat').value,
+          document.getElementById('sp-target').value,
+          'Active',
+          base64String
+        ];
+        executeAdminWriteTransaction('Support', 'insert', payload, () => {
+          document.getElementById('addSupportForm').reset();
+          fetchLatestDataFromCloudEngine();
+        });
+      });
+    }
 
-            const res = await fetch(APPS_SCRIPT_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
+    function handleAdminAddGallery(e) {
+      e.preventDefault();
+      convertFileInputToBase64Stream(document.getElementById('gal-file'), (base64String) => {
+        executeAdminWriteTransaction('Gallery', 'insert', [base64String], () => {
+          document.getElementById('addGalleryForm').reset();
+          fetchLatestDataFromCloudEngine();
+        });
+      });
+    }
 
-            // If response works out smoothly or passes CORS successfully
-            const writeTx = db.transaction(mod, 'readwrite');
-            const writeStore = writeTx.objectStore(mod);
-            unSyncedRecords.forEach(r => {
-              r.synced = 1;
-              writeStore.put(r);
-            });
-          } catch(err) {
-            console.error(`Sync failure encountered in department workspace: ${mod}`, err);
-          }
-        }
+    function executeAdminWriteTransaction(targetSheet, operation, payload, callback) {
+      const bodyPayload = { action: 'adminWrite', targetSheet, operation, payload };
+      fetch(BACKEND_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyPayload)
+      }).then(res => res.json()).then(res => { if(res.success) callback(); });
+    }
+
+    function triggerDeleteRow(targetSheet, id) {
+      if(confirm("Confirm system transaction to delete item record?")) {
+        fetch(BACKEND_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'adminWrite', targetSheet, operation: 'delete', id })
+        }).then(res => res.json()).then(res => { if(res.success) fetchLatestDataFromCloudEngine(); });
       }
+    }
+
+    function updateComplaintStatus(id, newStatus) {
+      fetch(BACKEND_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'adminWrite', targetSheet: 'Complaints', operation: 'updateStatus', id, newStatus })
+      }).then(res => res.json()).then(res => { if(res.success) fetchLatestDataFromCloudEngine(); });
+    }
+
+    // Render Tabular Framework Layouts inside Internal Panel
+    function renderManagementTables() {
+      document.getElementById('admin-staff-table').innerHTML = localDB.Staff.map(s => `<tr><td>${s.name}</td><td>${s.position}</td><td>${s.department}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Staff','${s.id}')">Delete</button></td></tr>`).join('');
       
-      alert("Data synchronization loop executed. Local logs successfully flagged.");
-      loadAllDepartmentalRecords();
+      const sortedNews = [...localDB.News].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+      document.getElementById('admin-news-table').innerHTML = sortedNews.map(n => `<tr><td>${n.title}</td><td>${new Date(n.timestamp).toLocaleDateString()}</td><td><button class="btn-danger" onclick="triggerDeleteRow('News','${n.id}')">Delete</button></td></tr>`).join('');
+      
+      document.getElementById('admin-support-table').innerHTML = localDB.Support.map(sp => `<tr><td>${sp.title}</td><td>${sp.category}</td><td>${sp.target}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Support','${sp.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-gallery-table').innerHTML = localDB.Gallery.map(g => `<tr><td>${g.id}</td><td>${new Date(g.timestamp).toLocaleDateString()}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Gallery','${g.id}')">Delete</button></td></tr>`).join('');
+      
+      document.getElementById('admin-complaints-table').innerHTML = localDB.Complaints.map(c => `<tr><td>${c.name}</td><td>${c.phone}</td><td>${c.category}</td><td>${c.message}</td><td><strong>${c.status}</strong></td><td><button style="background:var(--primary); color:white; border:none; padding:0.3rem; border-radius:4px; font-size:0.8rem;" onclick="updateComplaintStatus('${c.id}', 'Resolved')">Resolve</button></td></tr>`).join('');
     }
   </script>
 </body>
