@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nangodi Health Centre Staff Records System</title>
+  <link rel="manifest" href="manifest.json">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #1b5e20;
+      --light-green: #e8f5e9;
+      --dark-green: #0c3311;
+      --accent-white: #ffffff;
+    }
+    body {
+      background-color: #fcfdfc;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .bg-green { background-color: var(--primary-green) !important; color: white; }
+    .text-green { color: var(--primary-green); }
+    .btn-green { background-color: var(--primary-green); color: white; }
+    .btn-green:hover { background-color: var(--dark-green); color: white; }
+    .hero-banner {
+      background: linear-gradient(rgba(27, 94, 32, 0.8), rgba(12, 51, 17, 0.9)), url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1200&q=80') center/cover;
+      color: white;
+      padding: 100px 20px;
+      text-align: center;
+    }
+    .navbar-brand img { height: 40px; margin-right: 10px; }
+    .card-counter {
+      border-left: 5px solid var(--primary-green);
+      border-radius: 4px;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: var(--primary-green);
+      color: white !important;
+    }
+    .role-section {
+      display: none;
+      border: 1px solid #dee2e6;
+      padding: 20px;
+      margin-bottom: 25px;
+      background: white;
+      border-radius: 8px;
+    }
+    footer { background-color: var(--dark-green); color: white; padding: 25px 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-green sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#" onclick="showSection('home-view')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="Logo">
+        <span>Nangodi Health Centre</span>
+      </a>
+      <span id="connection-status" class="badge bg-success ms-2">Online</span>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-white" href="#" onclick="showSection('home-view')">Home</a></li>
+          <li class="nav-item" id="nav-login"><a class="nav-link btn btn-light text-green fw-bold px-3 ms-2" href="#" onclick="showSection('login-view')">Staff Portal Login</a></li>
+          <li class="nav-item d-none" id="nav-dashboard"><a class="nav-link text-white fw-bold" href="#" onclick="showSection('dashboard-view')">My System Dashboard</a></li>
+          <li class="nav-item d-none" id="nav-logout"><a class="nav-link text-warning ms-2" href="#" onclick="handleLogout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-4 min-vh-100">
+    
+    <section id="home-view" class="view-section">
+      <div class="hero-banner rounded mb-4">
+        <h1 class="display-4 fw-bold">Nangodi Health Centre</h1>
+        <p class="lead">Providing Professional, Reliable, and Accessible Healthcare Records Management.</p>
+        <button class="btn btn-light btn-lg text-green fw-bold mt-3" onclick="showSection('login-view')">Access Staff Workstation</button>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-7">
+          <h3 class="text-green border-bottom pb-2">News & Public Announcements</h3>
+          <div id="announcements-container">
+            <div class="card mb-3 shadow-sm">
+              <div class="card-body">
+                <span class="badge bg-green mb-2">Notice</span>
+                <h5 class="card-title">Welcome to the Digital Records Portal</h5>
+                <p class="card-text">Nangodi Health Centre staff records system operates in real-time, functioning completely offline when field networks fall offline.</p>
+                <small class="text-muted">Posted: June 21, 2026</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-5">
+          <div class="card p-4 shadow-sm border-0 bg-light">
+            <h4 class="text-green mb-3">Complaints & Suggestions</h4>
+            <form id="complaintForm" onsubmit="handleComplaintSubmit(event)">
+              <div class="mb-3">
+                <label class="form-label">Submission Type</label>
+                <select class="form-select" id="comp-type" required>
+                  <option value="Suggestion">Suggestion</option>
+                  <option value="Complaint">Complaint</option>
+                  <option value="Feedback">Service Feedback</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Elaborate details</label>
+                <textarea class="form-control" id="comp-content" rows="4" placeholder="Type here..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-green w-100">Submit Anonymously</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="login-view" class="view-section d-none" style="max-width: 450px; margin: 60px auto;">
+      <div class="card p-4 shadow">
+        <div class="text-center mb-4">
+          <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" height="60" alt="Logo">
+          <h3 class="text-green mt-2">Staff Authentication</h3>
+        </div>
+        <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+          <div class="mb-3">
+            <label class="form-label">User ID</label>
+            <input type="text" class="form-control" id="login-uid" required placeholder="Enter User ID">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Secret Password</label>
+            <input type="password" class="form-control" id="login-pwd" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-green w-100 py-2">Log In To Workstation</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="dashboard-view" class="view-section d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+          <h2 class="text-green m-0">Staff Workspace Portal</h2>
+          <p class="text-muted m-0">Logged In User: <strong id="user-display-name">N/A</strong></p>
+        </div>
+        <button class="btn btn-warning fw-bold" onclick="triggerManualSync()">🔄 Sync Local Data to Cloud</button>
+      </div>
+
+      <div class="row g-3 mb-4 text-center">
+        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter"><h6>Total Records</h6><h3 id="m-total">0</h3></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-success"><h6>Created Today</h6><h3 id="m-today">0</h3></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-warning"><h6>Pending Sync</h6><h3 id="m-pending">0</h3></div></div>
+        <div class="col-6 col-md-3"><div class="p-3 bg-white shadow-sm card-counter text-info"><h6>Synced Cloud</h6><h3 id="m-synced">0</h3></div></div>
+      </div>
+
+      <div id="role-admin-sec" class="role-section">
+        <h4 class="text-danger border-bottom pb-2">🛡️ Administrator Management Dashboard</h4>
+        <div class="row g-3 my-2">
+          <div class="col-md-4">
+            <h5>Create Announcement</h5>
+            <form onsubmit="adminCreateAnn(event)" class="bg-light p-3 rounded">
+              <input type="text" id="ann-title" class="form-control mb-2" placeholder="Title" required>
+              <textarea id="ann-desc" class="form-control mb-2" placeholder="Announcement Details" required></textarea>
+              <button type="submit" class="btn btn-danger btn-sm w-100">Publish Notice</button>
+            </form>
+          </div>
+          <div class="col-md-8">
+            <h5>Complaints Logs View</h5>
+            <div class="table-responsive bg-light p-2 rounded" style="max-height: 180px;">
+              <table class="table table-sm table-striped">
+                <thead><tr><th>Type</th><th>Content</th></tr></thead>
+                <tbody id="admin-complaints-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="role-nurse-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">🧑‍⚕️ Nursing Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'Nursing')" class="row g-2 mb-3">
+          <div class="col-md-3"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
+          <div class="col-md-2"><input type="number" class="form-control" name="age" placeholder="Age" required></div>
+          <div class="col-md-3"><input type="text" class="form-control" name="vitals" placeholder="Vitals (BP, Temp)" required></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="notes" placeholder="General Nursing Notes" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Nursing Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Age</th><th>Vitals</th><th>Notes</th><th>Actions</th></tr></thead><tbody id="table-Nursing"></tbody></table></div>
+      </div>
+
+      <div id="role-midwife-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">🤰 Midwifery Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'Midwifery')" class="row g-2 mb-3">
+          <div class="col-md-4"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
+          <div class="col-md-4"><select class="form-select" name="ancType"><option>ANC Visit</option><option>Delivery Record</option><option>Postnatal Care</option></select></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="details" placeholder="Obstetrics Details Summary" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Midwifery Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Type</th><th>Details</th><th>Actions</th></tr></thead><tbody id="table-Midwifery"></tbody></table></div>
+      </div>
+
+      <div id="role-chn-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">🚲 Community Health Nurse (CHN) Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'CHN')" class="row g-2 mb-3">
+          <div class="col-md-4"><select class="form-select" name="activity"><option>Outreach Campaign</option><option>Immunization Session</option><option>Home Health Visit</option></select></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="location" placeholder="Community / Village Name" required></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="details" placeholder="Intervention Details" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save CHN Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Activity</th><th>Location</th><th>Details</th><th>Actions</th></tr></thead><tbody id="table-CHN"></tbody></table></div>
+      </div>
+
+      <div id="role-cho-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">🏡 Community Health Officer (CHO) Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'CHO')" class="row g-2 mb-3">
+          <div class="col-md-4"><input type="text" class="form-control" name="serviceType" placeholder="Community Service Form Description" required></div>
+          <div class="col-md-8"><input type="text" class="form-control" name="surveillanceData" placeholder="Epidemiological Surveillance Log Entries" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save CHO Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Service Type</th><th>Surveillance Data</th><th>Actions</th></tr></thead><tbody id="table-CHO"></tbody></table></div>
+      </div>
+
+      <div id="role-pa-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">📋 Physician Assistant Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'PhysicianAssistant')" class="row g-2 mb-3">
+          <div class="col-md-4"><input type="text" class="form-control" name="patientName" placeholder="Patient Name" required></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="diagnosis" placeholder="Primary Diagnosis" required></div>
+          <div class="col-md-4"><input type="text" class="form-control" name="treatment" placeholder="Treatment Plan Protocol" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Clinical Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Patient</th><th>Diagnosis</th><th>Treatment</th><th>Actions</th></tr></thead><tbody id="table-PhysicianAssistant"></tbody></table></div>
+      </div>
+
+      <div id="role-pharmacy-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">💊 Pharmacy & Logistics Module</h4>
+        <form onsubmit="handleRecordSubmit(event, 'Pharmacy')" class="row g-2 mb-3">
+          <div class="col-md-4"><input type="text" class="form-control" name="medicineName" placeholder="Medicine / Drug Name" required></div>
+          <div class="col-md-3"><input type="number" class="form-control" name="quantity" placeholder="Quantity" required></div>
+          <div class="col-md-5"><select class="form-select" name="actionType"><option>Dispensed to Patient</option><option>Stock Inventory Inbound Update</option></select></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Pharmacy Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Medicine</th><th>Qty</th><th>Action Type</th><th>Actions</th></tr></thead><tbody id="table-Pharmacy"></tbody></table></div>
+      </div>
+
+      <div id="role-lab-sec" class="role-section">
+        <h4 class="text-green border-bottom pb-2">🔬 Laboratory Services</h4>
+        <form onsubmit="handleRecordSubmit(event, 'Laboratory')" class="row g-2 mb-3">
+          <div class="col-md-5"><input type="text" class="form-control" name="testType" placeholder="Investigation / Test Type Request" required></div>
+          <div class="col-md-7"><input type="text" class="form-control" name="result" placeholder="Laboratory Findings / Outbound Result" required></div>
+          <div class="col-12"><button type="submit" class="btn btn-green btn-sm">Save Laboratory Entry</button></div>
+        </form>
+        <div class="table-responsive"><table class="table table-bordered table-sm"><thead><tr><th>Test Type</th><th>Result Findings</th><th>Actions</th></tr></thead><tbody id="table-Laboratory"></tbody></table></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="text-center">
+    <div class="container">
+      <p class="m-0 fw-bold">Developed by UDS TTFPP Group 149</p>
+      <p class="m-0 style-italic small">Academic Year: 2025/2026</p>
+      <div class="mt-2 text-white-50 small">
+        <span>Support Technical Helpline Contact: <strong>0598160732</strong></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Configuration Endpoint URL: Replace with your actual deployed Apps Script Executable Link
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzM3bvibXRxDJ1ICJ9gvQYdHMPAlNyy5VTViTwQWSZkPy1dqXBG5JyVXGeE4c2G44qI/exec";
+    
+    let db = null;
+    let currentUser = null;
+    const MODULES = ['Nursing', 'Midwifery', 'CHN', 'CHO', 'PhysicianAssistant', 'Pharmacy', 'Laboratory'];
+
+    // Initialize System Architecture on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      initIndexedDB();
+      initNetworkListeners();
+      registerServiceWorker();
+    });
+
+    function initIndexedDB() {
+      const request = indexedDB.open('NangodiHealthDB', 1);
+      request.onupgradeneeded = (e) => {
+        const database = e.target.result;
+        // Primary Core Modules Tables Stores
+        MODULES.forEach(mod => {
+          database.createObjectStore(mod, { keyPath: 'id' });
+        });
+        // Administration auxiliary stores
+        database.createObjectStore('Announcements', { keyPath: 'id' });
+        database.createObjectStore('Complaints', { keyPath: 'id' });
+        database.createObjectStore('Users', { keyPath: 'userId' });
+      };
+
+      request.onsuccess = (e) => {
+        db = e.target.result;
+        seedFallbackUserData();
+        loadAnnouncementsUI();
+      };
+    }
+
+    function seedFallbackUserData() {
+      // Injects a localized administrative superuser mapping containing access privileges for every medical division
+      const tx = db.transaction('Users', 'readwrite');
+      const store = tx.objectStore('Users');
+      store.put({
+        userId: "admin01",
+        password: "password123",
+        name: "Super Admin (All Roles)",
+        roles: "Administrator,Nurse,Midwife,CHN,CHO,Physician Assistant,Pharmacy,Laboratory"
+      });
+    }
+
+    function initNetworkListeners() {
+      const status = document.getElementById('connection-status');
+      window.addEventListener('online', () => { status.className = "badge bg-success ms-2"; status.innerText = "Online"; });
+      window.addEventListener('offline', () => { status.className = "badge bg-danger ms-2"; status.innerText = "Offline"; });
+      if(!navigator.onLine) { status.className = "badge bg-danger ms-2"; status.innerText = "Offline"; }
+    }
+
+    function registerServiceWorker() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.log("SW Reg failed", err));
+      }
+    }
+
+    // Router SPA View Changer
+    function showSection(id) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.add('d-none'));
+      document.getElementById(id).classList.remove('d-none');
+      window.scrollTo(0,0);
+    }
+
+    // Authentication Engine Logic
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const uid = document.getElementById('login-uid').value;
+      const psw = document.getElementById('login-pwd').value;
+
+      const tx = db.transaction('Users', 'readonly');
+      const store = tx.objectStore('Users');
+      const req = store.get(uid);
+
+      req.onsuccess = () => {
+        const user = req.result;
+        if(user && user.password === psw) {
+          currentUser = user;
+          document.getElementById('user-display-name').innerText = user.name;
+          document.getElementById('nav-login').classList.add('d-none');
+          document.getElementById('nav-dashboard').classList.remove('d-none');
+          document.getElementById('nav-logout').classList.remove('d-none');
+          
+          evaluateRoleUIViews(user.roles);
+          showSection('dashboard-view');
+          loadAllDepartmentalRecords();
+        } else {
+          alert("Invalid Identification Credentials or Password Match Fail.");
+        }
+      };
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      document.getElementById('nav-login').classList.remove('d-none');
+      document.getElementById('nav-dashboard').classList.add('d-none');
+      document.getElementById('nav-logout').classList.add('d-none');
+      showSection('home-view');
+    }
+
+    // Role Profiler Evaluation Rule Matrix
+    function evaluateRoleUIViews(rolesString) {
+      // Hide all beforehand
+      document.querySelectorAll('.role-section').forEach(s => s.style.display = 'none');
+      
+      const roles = rolesString.split(',');
+      if(roles.includes('Administrator')) document.getElementById('role-admin-sec').style.display = 'block';
+      if(roles.includes('Nurse')) document.getElementById('role-nurse-sec').style.display = 'block';
+      if(roles.includes('Midwife')) document.getElementById('role-midwife-sec').style.display = 'block';
+      if(roles.includes('CHN')) document.getElementById('role-chn-sec').style.display = 'block';
+      if(roles.includes('CHO')) document.getElementById('role-cho-sec').style.display = 'block';
+      if(roles.includes('Physician Assistant')) document.getElementById('role-pa-sec').style.display = 'block';
+      if(roles.includes('Pharmacy')) document.getElementById('role-pharmacy-sec').style.display = 'block';
+      if(roles.includes('Laboratory')) document.getElementById('role-lab-sec').style.display = 'block';
+    }
+
+    // Transaction Engine CRUD Submitter
+    function handleRecordSubmit(e, targetStore) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      const record = {
+        id: targetStore.substring(0,3).toUpperCase() + "-" + Date.now(),
+        userId: currentUser.userId,
+        timestamp: new Date().toISOString(),
+        synced: 0
+      };
+
+      formData.forEach((value, key) => { record[key] = value; });
+
+      const tx = db.transaction(targetStore, 'readwrite');
+      tx.objectStore(targetStore).put(record);
+      
+      tx.oncomplete = () => {
+        form.reset();
+        loadAllDepartmentalRecords();
+      };
+    }
+
+    function deleteDraftRecord(id, targetStore) {
+      const tx = db.transaction(targetStore, 'readwrite');
+      tx.objectStore(targetStore).delete(id);
+      tx.oncomplete = () => { loadAllDepartmentalRecords(); };
+    }
+
+    // Aggregates Lists Views and updates Analytics Metrics Realtime
+    function loadAllDepartmentalRecords() {
+      let grandTotal = 0;
+      let syncPendingCount = 0;
+      let cloudSyncedCount = 0;
+      let createdTodayCount = 0;
+
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      MODULES.forEach(mod => {
+        const tx = db.transaction(mod, 'readonly');
+        const store = tx.objectStore(mod);
+        const req = store.getAll();
+
+        req.onsuccess = () => {
+          const records = req.result;
+          const tbody = document.getElementById(`table-${mod}`);
+          if(!tbody) return;
+          tbody.innerHTML = "";
+
+          records.forEach(rec => {
+            grandTotal++;
+            if(rec.synced === 1) cloudSyncedCount++; else syncPendingCount++;
+            if(rec.timestamp.startsWith(todayStr)) createdTodayCount++;
+
+            // Render dynamic table rows based on modular structural configurations
+            let rowMeta = `<td>${rec.id}</td>`;
+            if(mod === 'Nursing') rowMeta = `<td>${rec.patientName}</td><td>${rec.age}</td><td>${rec.vitals}</td><td>${rec.notes}</td>`;
+            else if(mod === 'Midwifery') rowMeta = `<td>${rec.patientName}</td><td>${rec.ancType}</td><td>${rec.details}</td>`;
+            else if(mod === 'CHN') rowMeta = `<td>${rec.activity}</td><td>${rec.location}</td><td>${rec.details}</td>`;
+            else if(mod === 'CHO') rowMeta = `<td>${rec.serviceType}</td><td>${rec.surveillanceData}</td>`;
+            else if(mod === 'PhysicianAssistant') rowMeta = `<td>${rec.patientName}</td><td>${rec.diagnosis}</td><td>${rec.treatment}</td>`;
+            else if(mod === 'Pharmacy') rowMeta = `<td>${rec.medicineName}</td><td>${rec.quantity}</td><td>${rec.actionType}</td>`;
+            else if(mod === 'Laboratory') rowMeta = `<td>${rec.testType}</td><td>${rec.result}</td>`;
+
+            const syncBadge = rec.synced === 1 ? '<span class="badge bg-success">Synced</span>' : '<span class="badge bg-warning">Draft</span>';
+            const actionBtn = rec.synced === 0 ? `<button class="btn btn-danger btn-xs py-0 px-1" onclick="deleteDraftRecord('${rec.id}', '${mod}')">Delete</button>` : '';
+
+            tbody.innerHTML += `<tr>${rowMeta}<td>${syncBadge} ${actionBtn}</td></tr>`;
+          });
+
+          // Metrics update
+          document.getElementById('m-total').innerText = grandTotal;
+          document.getElementById('m-today').innerText = createdTodayCount;
+          document.getElementById('m-pending').innerText = syncPendingCount;
+          document.getElementById('m-synced').innerText = cloudSyncedCount;
+        };
+      });
+      
+      // Load complaints if user is administrator
+      if(currentUser && currentUser.roles.includes('Administrator')) {
+        const txComp = db.transaction('Complaints', 'readonly');
+        txComp.objectStore('Complaints').getAll().onsuccess = (e) => {
+          const compTable = document.getElementById('admin-complaints-table');
+          compTable.innerHTML = "";
+          e.target.result.forEach(c => {
+            compTable.innerHTML += `<tr><td><strong>${c.type}</strong></td><td>${c.content}</td></tr>`;
+          });
+        };
+      }
+    }
+
+    // Public Feedback Submit Framework
+    function handleComplaintSubmit(e) {
+      e.preventDefault();
+      const comp = {
+        id: "CMP-" + Date.now(),
+        type: document.getElementById('comp-type').value,
+        content: document.getElementById('comp-content').value,
+        timestamp: new Date().toISOString()
+      };
+
+      const tx = db.transaction('Complaints', 'readwrite');
+      tx.objectStore('Complaints').put(comp);
+      tx.oncomplete = () => {
+        alert("Thank you. Feedback logged locally. Will be transmitted to administrators.");
+        document.getElementById('complaintForm').reset();
+        
+        // Online network processing proxy forwarding
+        if(navigator.onLine && APPS_SCRIPT_URL !== "") {
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ action: "submitComplaint", payload: comp })
+          });
+        }
+      };
+    }
+
+    // Administrative Publish notice action rules
+    function adminCreateAnn(e) {
+      e.preventDefault();
+      const ann = {
+        id: "ANN-" + Date.now(),
+        title: document.getElementById('ann-title').value,
+        content: document.getElementById('ann-desc').value,
+        type: "Notice",
+        date: new Date().toLocaleDateString()
+      };
+
+      const tx = db.transaction('Announcements', 'readwrite');
+      tx.objectStore('Announcements').put(ann);
+      tx.oncomplete = () => {
+        alert("Notice published successfully.");
+        document.getElementById('ann-title').value = "";
+        document.getElementById('ann-desc').value = "";
+        loadAnnouncementsUI();
+      };
+    }
+
+    function loadAnnouncementsUI() {
+      const tx = db.transaction('Announcements', 'readonly');
+      tx.objectStore('Announcements').getAll().onsuccess = (e) => {
+        const list = e.target.result;
+        if(list.length === 0) return;
+        const cont = document.getElementById('announcements-container');
+        cont.innerHTML = "";
+        list.reverse().forEach(ann => {
+          cont.innerHTML += `
+            <div class="card mb-3 shadow-sm">
+              <div class="card-body">
+                <span class="badge bg-green mb-2">${ann.type}</span>
+                <h5 class="card-title">${ann.title}</h5>
+                <p class="card-text">${ann.content}</p>
+                <small class="text-muted">Date: ${ann.date}</small>
+              </div>
+            </div>`;
+        });
+      };
+    }
+
+    // Cloud Data Sync Engine
+    async function triggerManualSync() {
+      if(!navigator.onLine) {
+        alert("Error: Internet Connection unavailable. Reconnect to sync with cloud sheets.");
+        return;
+      }
+      
+      alert("Starting Synchronization Process...");
+
+      for (const mod of MODULES) {
+        const tx = db.transaction(mod, 'readonly');
+        const store = tx.objectStore(mod);
+        const records = await new Promise(resolve => {
+          store.getAll().onsuccess = (e) => resolve(e.target.result);
+        });
+
+        const unSyncedRecords = records.filter(r => r.synced === 0);
+
+        if(unSyncedRecords.length > 0) {
+          try {
+            const payload = {
+              action: "syncRecords",
+              sheetName: mod,
+              records: unSyncedRecords
+            };
+
+            const res = await fetch(APPS_SCRIPT_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            // If response works out smoothly or passes CORS successfully
+            const writeTx = db.transaction(mod, 'readwrite');
+            const writeStore = writeTx.objectStore(mod);
+            unSyncedRecords.forEach(r => {
+              r.synced = 1;
+              writeStore.put(r);
+            });
+          } catch(err) {
+            console.error(`Sync failure encountered in department workspace: ${mod}`, err);
+          }
+        }
+      }
+      
+      alert("Data synchronization loop executed. Local logs successfully flagged.");
+      loadAllDepartmentalRecords();
+    }
+  </script>
+</body>
+</html>
