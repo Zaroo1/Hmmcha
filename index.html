@@ -789,7 +789,7 @@
       
       fetch(BACKEND_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' }, // Using text/plain to bypass iOS Safari pre-flight CORS block
         body: JSON.stringify({ action: 'login', username: user, password: pass })
       })
       .then(res => res.json())
