@@ -607,16 +607,15 @@
       
       const makeStaffHTML = (s) => {
         const fallbackImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80';
-        const imgUrl = (s.photo && s.photo.startsWith('data:')) ? s.photo : fallbackImg;
-        const caption = `${s.name} - ${s.position} (${s.department || 'Medicine'})`;
+        const imgUrl = (s.image && s.image.startsWith('data:')) ? s.image : fallbackImg;
+        const caption = `${s.name} - ${s.role} (${s.status || 'Active'})`;
         return `
           <div class="card">
             <img src="${imgUrl}" class="card-img" alt="Staff Profile" onclick="expandLightboxImage('${imgUrl}', '${caption.replace(/'/g, "\\'")}')">
             <div class="card-body">
-              <span class="card-tag">${s.department || 'General Medicine'}</span>
+              <span class="card-tag">${s.status || 'Active Personnel'}</span>
               <h4 class="card-title">${s.name}</h4>
-              <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.position}</p>
-              <p class="card-desc">${s.profile || 'No bio profile added yet.'}</p>
+              <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.role}</p>
             </div>
           </div>
         `;
@@ -625,8 +624,8 @@
       const makeNewsHTML = (n) => {
         const fallbackImg = 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80';
         const imgUrl = (n.image && n.image.startsWith('data:')) ? n.image : fallbackImg;
-        // FIXED 1: Robust safety fallback to catch alternative content mapping formats
-        const newsContent = n.content || n.description || n.body || "No additional text content provided for this broadcast update.";
+        let newsContent = n.content || "Click to view details regarding this health broadcast.";
+        if (newsContent === "undefined") newsContent = "Broadcast announcement.";
         return `
           <div class="card">
             <img src="${imgUrl}" class="card-img" alt="News Update" onclick="expandLightboxImage('${imgUrl}', '${n.title.replace(/'/g, "\\'")}')">
@@ -651,12 +650,12 @@
         const imgUrl = (sp.image && sp.image.startsWith('data:')) ? sp.image : fallbackImg;
         return `
           <div class="card">
-            <img src="${imgUrl}" class="card-img" alt="Campaign Asset" onclick="expandLightboxImage('${imgUrl}', '${sp.title.replace(/'/g, "\\'")}')">
+            <img src="${imgUrl}" class="card-img" alt="Campaign Asset" onclick="expandLightboxImage('${imgUrl}', '${sp.needTitle.replace(/'/g, "\\'")}')">
             <div class="card-body">
               <span class="card-tag">${sp.category}</span>
-              <h4 class="card-title">${sp.title}</h4>
+              <h4 class="card-title">${sp.needTitle}</h4>
               <p class="card-desc">${sp.description}</p>
-              <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Target/Contact: ${sp.target}</p>
+              <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Target Status: Active</p>
               <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '45%'}"></div></div>
               <p style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">Campaign Status: ${sp.status}</p>
             </div>
@@ -666,8 +665,7 @@
 
       const galleryGrid = document.getElementById('public-gallery-grid');
       galleryGrid.innerHTML = localDB.Gallery.length ? localDB.Gallery.map(g => {
-        // FIXED 2: Correctly matches the updated structural layout properties for media captions
-        const descText = g.description || g.caption || "Facility Asset Image";
+        const descText = g.description || "Facility Asset Image";
         return `
           <div class="card" style="cursor: pointer;">
             <img src="${g.image}" class="card-img" style="height:220px;" alt="Gallery Asset" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
@@ -799,6 +797,7 @@
         if(res.success) {
           banner.innerText = "Access Granted! Loading Session Matrix...";
           banner.className = "auth-status-banner success";
+          banner.style.display = "block";
           
           setTimeout(() => {
             document.getElementById('admin-auth-screen').style.display = 'none';
@@ -815,18 +814,11 @@
         }
       })
       .catch(err => {
-        banner.innerText = "Terminal Synced via Local Token Security.";
-        banner.className = "auth-status-banner success";
-        setTimeout(() => {
-          document.getElementById('admin-auth-screen').style.display = 'none';
-          document.getElementById('admin-dashboard-shell').style.display = 'block';
-          submitBtn.innerText = "Authenticate Identity";
-          submitBtn.disabled = false;
-          banner.style.display = "none";
-          setAdminSection('metrics');
-          calculateOperationalMetrics();
-          renderManagementTables();
-        }, 1200);
+        banner.innerText = err.message || "Login authentication rejected.";
+        banner.className = "auth-status-banner error";
+        banner.style.display = "block";
+        submitBtn.innerText = "Authenticate Identity";
+        submitBtn.disabled = false;
       });
     }
 
@@ -891,15 +883,11 @@
       e.preventDefault();
       setButtonLoadingState('staffSubmitBtn', true, "Processing Identity...");
       processAndOptimizeImageFile(document.getElementById('st-file'), 600, (base64String) => {
+        const name = document.getElementById('st-name').value;
+        const role = document.getElementById('st-pos').value + " (" + document.getElementById('st-dept').value + ")";
+        
         const fakeId = "LOCAL_" + Date.now();
-        const localItem = {
-          id: fakeId,
-          name: document.getElementById('st-name').value,
-          position: document.getElementById('st-pos').value,
-          department: document.getElementById('st-dept').value,
-          profile: document.getElementById('st-prof').value,
-          photo: base64String
-        };
+        const localItem = { id: fakeId, name: name, role: role, image: base64String, status: 'Active' };
         
         localDB.Staff.unshift(localItem);
         saveContextToLocalStorageCache('Staff', localDB.Staff);
@@ -907,7 +895,8 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        const payload = [localItem.name, localItem.position, localItem.department, localItem.profile, base64String];
+        // Matches Sheet layout sequence: [name, role, image, status]
+        const payload = [name, role, base64String, 'Active'];
         
         document.getElementById('addStaffForm').reset();
         setButtonLoadingState('staffSubmitBtn', false);
@@ -940,8 +929,8 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        // FIXED 1: Maps both 'content' and secondary descriptions to solve field structural array mapping mismatches
-        const payload = [textTitle, textBody, base64String, textBody];
+        // Matches Sheet layout sequence: [title, content, image]
+        const payload = [textTitle, textBody, base64String];
         
         document.getElementById('addNewsForm').reset();
         setButtonLoadingState('newsSubmitBtn', false);
@@ -956,13 +945,16 @@
       e.preventDefault();
       setButtonLoadingState('supportSubmitBtn', true, "Processing Matrix...");
       processAndOptimizeImageFile(document.getElementById('sp-file'), 800, (base64String) => {
+        const title = document.getElementById('sp-title').value;
+        const desc = document.getElementById('sp-desc').value;
+        const cat = document.getElementById('sp-cat').value;
+        
         const fakeId = "LOCAL_" + Date.now();
         const localItem = {
           id: fakeId,
-          title: document.getElementById('sp-title').value,
-          description: document.getElementById('sp-desc').value,
-          category: document.getElementById('sp-cat').value,
-          target: document.getElementById('sp-target').value,
+          needTitle: title,
+          category: cat,
+          description: desc,
           status: 'Active',
           image: base64String
         };
@@ -973,7 +965,8 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        const payload = [localItem.title, localItem.description, localItem.category, localItem.target, 'Active', base64String];
+        // Matches Sheet layout sequence: [needTitle, category, description, status]
+        const payload = [title, cat, desc, 'Active'];
         
         document.getElementById('addSupportForm').reset();
         setButtonLoadingState('supportSubmitBtn', false);
@@ -990,11 +983,7 @@
       const descInput = document.getElementById('gal-desc').value;
       processAndOptimizeImageFile(document.getElementById('gal-file'), 1000, (base64String) => {
         const fakeId = "LOCAL_" + Date.now();
-        const localItem = {
-          id: fakeId,
-          description: descInput,
-          image: base64String
-        };
+        const localItem = { id: fakeId, description: descInput, image: base64String };
         
         localDB.Gallery.unshift(localItem);
         saveContextToLocalStorageCache('Gallery', localDB.Gallery);
@@ -1005,8 +994,8 @@
         document.getElementById('addGalleryForm').reset();
         setButtonLoadingState('gallerySubmitBtn', false);
         
-        // FIXED 2: Places user custom description payload at the start of column positioning parameters
-        executeAdminWriteTransaction('Gallery', 'insert', [descInput, base64String, descInput], () => {
+        // Matches Sheet layout sequence: [image, description]
+        executeAdminWriteTransaction('Gallery', 'insert', [base64String, descInput], () => {
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -1054,9 +1043,9 @@
     }
 
     function renderManagementTables() {
-      document.getElementById('admin-staff-table').innerHTML = localDB.Staff.map(s => `<tr><td><strong>${s.name}</strong></td><td>${s.position}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Staff','${s.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-staff-table').innerHTML = localDB.Staff.map(s => `<tr><td><strong>${s.name}</strong></td><td>${s.role}</td><td><button class="btn-danger" onclick="triggerDeleteRow('Staff','${s.id}')">Delete</button></td></tr>`).join('');
       document.getElementById('admin-news-table').innerHTML = localDB.News.map(n => `<tr><td><strong>${n.title}</strong></td><td><button class="btn-danger" onclick="triggerDeleteRow('News','${n.id}')">Delete</button></td></tr>`).join('');
-      document.getElementById('admin-support-table').innerHTML = localDB.Support.map(sp => `<tr><td><strong>${sp.title}</strong></td><td><button class="btn-danger" onclick="triggerDeleteRow('Support','${sp.id}')">Delete</button></td></tr>`).join('');
+      document.getElementById('admin-support-table').innerHTML = localDB.Support.map(sp => `<tr><td><strong>${sp.needTitle}</strong></td><td><button class="btn-danger" onclick="triggerDeleteRow('Support','${sp.id}')">Delete</button></td></tr>`).join('');
       document.getElementById('admin-gallery-table').innerHTML = localDB.Gallery.map(g => `<tr><td><strong>${g.description || 'No caption text'}</strong></td><td><button class="btn-danger" onclick="triggerDeleteRow('Gallery','${g.id}')">Delete</button></td></tr>`).join('');
       document.getElementById('admin-complaints-table').innerHTML = localDB.Complaints.map(c => `<tr><td><strong>${c.name}</strong></td><td>${c.message}</td><td><span style="padding:4px 8px; font-weight:700; border-radius:4px; font-size:11px; background:${c.status==='Pending'?'#ffe4e6':'#dcfce7'}; color:${c.status==='Pending'?'#ef4444':'#22c55e'};">${c.status}</span></td><td><button style="background:var(--primary); color:white; border:none; padding:0.4rem 0.75rem; font-weight:600; border-radius:var(--radius-sm); cursor:pointer;" onclick="updateComplaintStatus('${c.id}', 'Resolved')">Resolve</button></td></tr>`).join('');
     }
