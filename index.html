@@ -41,7 +41,6 @@
     }
     .brand-container { display: flex; align-items: center; gap: 0.75rem; }
     
-    /* GHS Logo Image Frame Container */
     .logo-container { 
       width: 44px; 
       height: 44px; 
@@ -134,51 +133,53 @@
     .auth-status-banner.success { display: block; background: #dcfce7; color: var(--primary); border: 1px solid #bbf7d0; }
     .auth-status-banner.error { display: block; background: #fee2e2; color: var(--danger); border: 1px solid #fca5a5; }
 
-    /* Responsive Grid Workspace Layout */
-    .admin-layout { display: grid; grid-template-columns: 1fr; min-height: 100vh; background: #f1f5f9; }
-    .admin-sidebar { background: var(--primary-dark); color: white; padding: 1.5rem; border-right: 1px solid rgba(255,255,255,0.05); }
-    .admin-sidebar h3 { font-size: 1.2rem; margin-bottom: 1.5rem; font-weight: 700; color: #f0fdf4; letter-spacing: -0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem; }
+    /* Responsive Grid Workspace Layout - Mobile Optimized Fixes */
+    .admin-layout { display: flex; flex-direction: column; min-height: 100vh; background: #f1f5f9; }
+    .admin-sidebar { background: var(--primary-dark); color: white; padding: 1.25rem; }
+    .admin-sidebar h3 { font-size: 1.1rem; margin-bottom: 1rem; font-weight: 700; color: #f0fdf4; letter-spacing: -0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
     
-    .admin-menu { list-style: none; display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.75rem; margin-bottom: 1rem; }
+    .admin-menu { list-style: none; display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; }
     .admin-menu::-webkit-scrollbar { height: 4px; }
     .admin-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-    .admin-menu li { padding: 0.6rem 1rem; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; font-size: 0.85rem; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); transition: all 0.2s ease; font-weight: 500; }
+    .admin-menu li { padding: 0.5rem 0.85rem; border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap; font-size: 0.8rem; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); transition: all 0.2s ease; font-weight: 500; }
     .admin-menu li:hover { background: rgba(255,255,255,0.12); color: white; }
     .admin-menu li.active { background: linear-gradient(135deg, var(--primary-light), var(--primary)); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     
-    .admin-workspace { padding: 1.5rem 1rem; }
-    .admin-sub-view h2 { font-size: 1.4rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1.5rem; letter-spacing: -0.5px; }
+    .admin-workspace { padding: 1.25rem 0.75rem; width: 100%; max-width: 100vw; overflow-hidden; }
+    .admin-sub-view h2 { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1.25rem; letter-spacing: -0.5px; }
     
-    .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 2rem; }
-    .metric-card { background: white; padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: center; }
-    .metric-card h4 { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem; }
-    .metric-card p { font-size: 1.8rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
+    .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .metric-card { background: white; padding: 1rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); }
+    .metric-card h4 { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem; }
+    .metric-card p { font-size: 1.5rem; font-weight: 800; color: var(--primary); line-height: 1.1; }
     
-    .admin-form-card { background: white; padding: 1.75rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); margin-bottom: 2rem; }
-    .table-container { background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow-x: auto; border: 1px solid rgba(0,0,0,0.02); }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; min-width: 500px; }
-    th { background: #f8fafc; padding: 1rem; font-weight: 700; border-bottom: 1px solid #e2e8f0; color: var(--text); }
-    td { padding: 1rem; border-bottom: 1px solid #e2e8f0; color: var(--text); vertical-align: middle; }
-    .btn-danger { background: var(--danger); color: white; border: none; padding: 0.45rem 0.85rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: background 0.2s; }
+    .admin-form-card { background: white; padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.02); margin-bottom: 1.5rem; }
+    .table-container { background: white; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow-x: auto; border: 1px solid rgba(0,0,0,0.02); width: 100%; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left; min-width: 450px; }
+    th { background: #f8fafc; padding: 0.75rem; font-weight: 700; border-bottom: 1px solid #e2e8f0; color: var(--text); }
+    td { padding: 0.75rem; border-bottom: 1px solid #e2e8f0; color: var(--text); vertical-align: middle; white-space: normal; word-break: break-word; }
+    .btn-danger { background: var(--danger); color: white; border: none; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: background 0.2s; }
     .btn-danger:hover { background: #dc2626; }
 
-    /* Flawless Fullscreen Aspect Lightbox Modal */
+    /* Flawless True Aspect Lightbox Modal Fix */
     #image-lightbox {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
-      background: rgba(11, 15, 13, 0.96); z-index: 9999; justify-content: center; 
-      align-items: center; flex-direction: column; padding: 1.5rem;
+      background: rgba(11, 15, 13, 0.97); z-index: 9999; justify-content: center; 
+      align-items: center; flex-direction: column; padding: 1rem; box-sizing: border-box;
     }
     #lightbox-expanded-img {
-      width: 100%; height: 100%; max-width: 92vw; max-height: 82vh;
-      object-fit: contain; border-radius: 4px;
-      animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 95vw; max-height: 75vh; width: auto; height: auto;
+      object-fit: contain; border-radius: var(--radius-sm);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     #lightbox-expanded-caption {
-      color: #f1f5f9; margin-top: 1.25rem; font-size: 1rem; font-weight: 500; 
-      text-align: center; max-width: 750px; background: rgba(0,0,0,0.4); 
-      padding: 0.6rem 1.2rem; border-radius: 50px; backdrop-filter: blur(4px);
+      color: #f1f5f9; margin-top: 1.5rem; font-size: 0.9rem; font-weight: 500; 
+      text-align: center; max-width: 90vw; background: rgba(255,255,255,0.08); 
+      padding: 0.6rem 1.2rem; border-radius: 50px; backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
     }
-    @keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
     /* Footers */
     footer { background: var(--primary-dark); color: rgba(255,255,255,0.7); padding: 3.5rem 1.25rem; font-size: 0.85rem; }
@@ -197,11 +198,17 @@
       .hero h2 { font-size: 2.8rem; }
       section { padding: 4.5rem 2rem; }
       .section-title { font-size: 1.85rem; }
-      .admin-layout { grid-template-columns: 260px 1fr; }
-      .admin-sidebar { padding: 2.5rem 1.75rem; }
-      .admin-menu { flex-direction: column; overflow-x: visible; gap: 0.65rem; }
-      .admin-workspace { padding: 2.5rem; }
+      .admin-layout { grid-template-columns: 260px 1fr; flex-direction: row; }
+      .admin-sidebar { padding: 2.5rem 1.75rem; border-right: 1px solid rgba(255,255,255,0.05); min-height: 100vh; width: 260px; }
+      .admin-sidebar h3 { font-size: 1.2rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; }
+      .admin-menu { flex-direction: column; overflow-x: visible; gap: 0.65rem; padding-bottom: 0; }
+      .admin-menu li { padding: 0.6rem 1rem; font-size: 0.85rem; }
+      .admin-workspace { padding: 2.5rem; width: calc(100% - 260px); }
+      .admin-sub-view h2 { font-size: 1.4rem; margin-bottom: 1.5rem; }
       .metric-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+      .admin-form-card { padding: 1.75rem; }
+      table { font-size: 0.85rem; }
+      th, td { padding: 1rem; }
       .footer-grid { grid-template-columns: repeat(3, 1fr); gap: 4rem; }
     }
   </style>
@@ -291,7 +298,7 @@
     <div id="view-gallery" class="view-pane">
       <section>
         <h3 class="section-title">Facility & Outreach Gallery</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Tap on any image element box to view fullscreen.</p>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Tap on any image element box to view full size view.</p>
         <div class="grid" id="public-gallery-grid"></div>
       </section>
     </div>
@@ -325,7 +332,7 @@
             <label>Detailed Message</label>
             <textarea class="form-control" id="comp-msg" rows="5" required></textarea>
           </div>
-          <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Transmit Feedback Securely</button>
+          <button type="submit" id="feedbackSubmitBtn" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Transmit Feedback Securely</button>
         </form>
       </section>
     </div>
@@ -415,7 +422,7 @@
               <div class="form-group"><input type="text" id="st-dept" placeholder="Department" class="form-control" required></div>
               <div class="form-group"><input type="text" id="st-prof" placeholder="Brief Professional Profile Description" class="form-control" required></div>
               <div class="form-group"><label>Profile Image File</label><input type="file" id="st-file" class="form-control" accept="image/*" required></div>
-              <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Register Core Personnel</button>
+              <button type="submit" id="staffSubmitBtn" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Register Core Personnel</button>
             </form>
           </div>
           <div class="table-container"><table><thead><tr><th>Name</th><th>Position</th><th>Action</th></tr></thead><tbody id="admin-staff-table"></tbody></table></div>
@@ -428,7 +435,7 @@
               <div class="form-group"><input type="text" id="ns-title" placeholder="Article Title" class="form-control" required></div>
               <div class="form-group"><textarea id="ns-content" placeholder="Content Body" class="form-control" rows="4" required></textarea></div>
               <div class="form-group"><label>Attach Media File</label><input type="file" id="ns-file" class="form-control" accept="image/*" required></div>
-              <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Broadcast Article</button>
+              <button type="submit" id="newsSubmitBtn" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Broadcast Article</button>
             </form>
           </div>
           <div class="table-container"><table><thead><tr><th>Title</th><th>Action</th></tr></thead><tbody id="admin-news-table"></tbody></table></div>
@@ -447,7 +454,7 @@
               </div>
               <div class="form-group"><input type="text" id="sp-target" placeholder="Financial/Contact Target Details" class="form-control" required></div>
               <div class="form-group"><label>Campaign Image Asset</label><input type="file" id="sp-file" class="form-control" accept="image/*" required></div>
-              <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Deploy Support Campaign</button>
+              <button type="submit" id="supportSubmitBtn" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Deploy Support Campaign</button>
             </form>
           </div>
           <div class="table-container"><table><thead><tr><th>Campaign</th><th>Action</th></tr></thead><tbody id="admin-support-table"></tbody></table></div>
@@ -461,7 +468,7 @@
                 <input type="text" id="gal-desc" placeholder="Image Description / Caption Context" class="form-control" required>
               </div>
               <div class="form-group"><input type="file" id="gal-file" class="form-control" accept="image/*" required></div>
-              <button type="submit" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Push Media Stream Instance</button>
+              <button type="submit" id="gallerySubmitBtn" class="btn btn-primary" style="background: var(--primary); color: white; width: 100%; border-radius: var(--radius-sm);">Push Media Stream Instance</button>
             </form>
           </div>
           <div class="table-container"><table><thead><tr><th>Image Caption</th><th>Action</th></tr></thead><tbody id="admin-gallery-table"></tbody></table></div>
@@ -476,7 +483,7 @@
   </div>
 
   <div id="image-lightbox" onclick="closeLightboxWindow(event)">
-      <span style="position:absolute; top:24px; right:32px; color:#ffffff; font-size:44px; font-weight:300; cursor:pointer; line-height:0.5;">&times;</span>
+      <span style="position:absolute; top:20px; right:25px; color:#ffffff; font-size:40px; font-weight:300; cursor:pointer; line-height:0.5; z-index:10000;">&times;</span>
       <img id="lightbox-expanded-img" src="" alt="Expanded View Asset">
       <p id="lightbox-expanded-caption"></p>
   </div>
@@ -672,8 +679,26 @@
       document.getElementById('image-lightbox').style.display = 'none';
     }
 
+    /* Helper utility to trigger structural load behavior on action targets */
+    function setButtonLoadingState(buttonId, isTargetLoading, descriptiveLabel) {
+      const targetBtn = document.getElementById(buttonId);
+      if(!targetBtn) return;
+      if(isTargetLoading) {
+        targetBtn.disabled = true;
+        targetBtn.setAttribute('data-original-label', targetBtn.innerText);
+        targetBtn.innerText = descriptiveLabel || "Transmitting Data Engine...";
+        targetBtn.style.opacity = "0.6";
+      } else {
+        targetBtn.disabled = false;
+        targetBtn.innerText = targetBtn.getAttribute('data-original-label') || "Submit Entry";
+        targetBtn.style.opacity = "1";
+      }
+    }
+
     function handleComplaintSubmit(e) {
       e.preventDefault();
+      setButtonLoadingState('feedbackSubmitBtn', true, "Transmitting Feedback...");
+      
       const payload = {
         action: 'addComplaint',
         name: document.getElementById('comp-name').value,
@@ -687,10 +712,12 @@
         transmitPayloadDirectlyToCloudAPI(payload, () => {
           alert("Submission dispatched successfully.");
           document.getElementById('complaintForm').reset();
+          setButtonLoadingState('feedbackSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       } else {
         stagePayloadInOutboxQueue(payload);
+        setButtonLoadingState('feedbackSubmitBtn', false);
       }
     }
 
@@ -732,7 +759,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       }).then(() => successCallback())
-        .catch(err => console.error("Synchronization pipeline interruption", err));
+        .catch(err => {
+          console.error("Synchronization pipeline interruption", err);
+          document.querySelectorAll('.btn-primary').forEach(btn => {
+            if(btn.disabled) { btn.disabled = false; btn.style.opacity = "1"; }
+          });
+        });
     }
 
     function handleAdminLogin(e) {
@@ -803,6 +835,7 @@
       document.querySelectorAll('.admin-sub-view').forEach(el => el.style.display = 'none');
       document.getElementById(`admin-sec-${secName}`).style.display = 'block';
       document.querySelectorAll('.admin-menu li').forEach(el => el.classList.remove('active'));
+      
       if(event && event.target && event.target.tagName === 'LI') {
         event.target.classList.add('active');
       }
@@ -851,6 +884,7 @@
 
     function handleAdminAddStaff(e) {
       e.preventDefault();
+      setButtonLoadingState('staffSubmitBtn', true, "Saving Member Profile...");
       processAndOptimizeImageFile(document.getElementById('st-file'), 600, (base64String) => {
         const payload = [
           document.getElementById('st-name').value,
@@ -861,6 +895,7 @@
         ];
         executeAdminWriteTransaction('Staff', 'insert', payload, () => {
           document.getElementById('addStaffForm').reset();
+          setButtonLoadingState('staffSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -868,6 +903,7 @@
 
     function handleAdminAddNews(e) {
       e.preventDefault();
+      setButtonLoadingState('newsSubmitBtn', true, "Broadcasting Update...");
       processAndOptimizeImageFile(document.getElementById('ns-file'), 800, (base64String) => {
         const payload = [
           document.getElementById('ns-title').value,
@@ -876,6 +912,7 @@
         ];
         executeAdminWriteTransaction('News', 'insert', payload, () => {
           document.getElementById('addNewsForm').reset();
+          setButtonLoadingState('newsSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -883,6 +920,7 @@
 
     function handleAdminAddSupport(e) {
       e.preventDefault();
+      setButtonLoadingState('supportSubmitBtn', true, "Publishing Campaign...");
       processAndOptimizeImageFile(document.getElementById('sp-file'), 800, (base64String) => {
         const payload = [
           document.getElementById('sp-title').value,
@@ -894,6 +932,7 @@
         ];
         executeAdminWriteTransaction('Support', 'insert', payload, () => {
           document.getElementById('addSupportForm').reset();
+          setButtonLoadingState('supportSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -901,10 +940,12 @@
 
     function handleAdminAddGallery(e) {
       e.preventDefault();
+      setButtonLoadingState('gallerySubmitBtn', true, "Uploading Image...");
       const descInput = document.getElementById('gal-desc').value;
       processAndOptimizeImageFile(document.getElementById('gal-file'), 1000, (base64String) => {
         executeAdminWriteTransaction('Gallery', 'insert', [base64String, descInput], () => {
           document.getElementById('addGalleryForm').reset();
+          setButtonLoadingState('gallerySubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
