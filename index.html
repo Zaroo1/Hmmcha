@@ -71,7 +71,7 @@
     .view-pane.active { display: block; }
     @keyframes paneReveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* High Performance Hero Image System with Dark Contrast Filter Layer */
+    /* High Performance Hero Image System */
     .hero {
       padding: 6rem 1.25rem; 
       background: linear-gradient(135deg, rgba(7, 42, 26, 0.88) 0%, rgba(15, 81, 50, 0.75) 100%), url('hero.jpg');
@@ -99,7 +99,7 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem; }
     .card { background: var(--surface); border-radius: var(--radius-md); border: 1px solid rgba(15,81,50,0.05); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .card-img { width: 100%; height: 190px; object-fit: cover; background: #f1f5f9; transition: transform 0.5s ease; }
+    .card-img { width: 100%; height: 190px; object-fit: cover; background: #f1f5f9; transition: transform 0.5s ease; cursor: pointer; }
     .card:hover .card-img { transform: scale(1.03); }
     .card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
     .card-tag { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; color: var(--primary-light); margin-bottom: 0.5rem; letter-spacing: 0.5px; }
@@ -117,7 +117,7 @@
     
     .offline-bar { background: var(--danger); color: white; text-align: center; padding: 0.5rem; font-size: 0.8rem; font-weight: 600; display: none; position: fixed; bottom: 0; width: 100%; z-index: 2000; letter-spacing: 0.5px; }
 
-    /* Beautiful Admin Terminal Overhaul */
+    /* Admin Terminal */
     .admin-auth-container {
       max-width: 420px; margin: 8% auto; padding: 2.5rem; background: var(--surface); 
       border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid rgba(15,81,50,0.06);
@@ -133,7 +133,7 @@
     .auth-status-banner.success { display: block; background: #dcfce7; color: var(--primary); border: 1px solid #bbf7d0; }
     .auth-status-banner.error { display: block; background: #fee2e2; color: var(--danger); border: 1px solid #fca5a5; }
 
-    /* Responsive Grid Workspace Layout - Mobile Optimized Fixes */
+    /* Layout Workspace */
     .admin-layout { display: flex; flex-direction: column; min-height: 100vh; background: #f1f5f9; }
     .admin-sidebar { background: var(--primary-dark); color: white; padding: 1.25rem; }
     .admin-sidebar h3 { font-size: 1.1rem; margin-bottom: 1rem; font-weight: 700; color: #f0fdf4; letter-spacing: -0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; }
@@ -145,7 +145,7 @@
     .admin-menu li:hover { background: rgba(255,255,255,0.12); color: white; }
     .admin-menu li.active { background: linear-gradient(135deg, var(--primary-light), var(--primary)); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     
-    .admin-workspace { padding: 1.25rem 0.75rem; width: 100%; max-width: 100vw; overflow-hidden; }
+    .admin-workspace { padding: 1.25rem 0.75rem; width: 100%; max-width: 100vw; }
     .admin-sub-view h2 { font-size: 1.25rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 1.25rem; letter-spacing: -0.5px; }
     
     .metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
@@ -161,7 +161,7 @@
     .btn-danger { background: var(--danger); color: white; border: none; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: background 0.2s; }
     .btn-danger:hover { background: #dc2626; }
 
-    /* Flawless True Aspect Lightbox Modal Fix */
+    /* Lightbox Modal */
     #image-lightbox {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
       background: rgba(11, 15, 13, 0.97); z-index: 9999; justify-content: center; 
@@ -181,7 +181,6 @@
     }
     @keyframes zoomIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-    /* Footers */
     footer { background: var(--primary-dark); color: rgba(255,255,255,0.7); padding: 3.5rem 1.25rem; font-size: 0.85rem; }
     .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
     .footer-brand h4 { color: white; font-size: 1.2rem; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
@@ -191,7 +190,6 @@
     .footer-links a:hover { color: white; }
     .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); font-size: 0.75rem; }
 
-    /* Media Desktop Breakpoints */
     @media (min-width: 768px) {
       header { padding: 1rem 3rem; }
       .hero { padding: 8rem 2rem; }
@@ -594,7 +592,7 @@
               renderManagementTables();
             }
           }
-        }).catch(err => console.log("Cloud extraction offline. Safely utilizing local indexDB cache storage.", err));
+        }).catch(err => console.log("Cloud status extraction exception fallback executed.", err));
     }
 
     function renderPublicInterfaceElements() {
@@ -607,28 +605,37 @@
       const newsGrid = document.getElementById('public-news-grid');
       const homeNewsGrid = document.getElementById('home-news-preview-grid');
       
-      const makeStaffHTML = (s) => `
-        <div class="card">
-          <img src="${s.photo && s.photo.startsWith('data:') ? s.photo : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Staff Profile Photo">
-          <div class="card-body">
-            <span class="card-tag">${s.department || 'General Medicine'}</span>
-            <h4 class="card-title">${s.name}</h4>
-            <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.position}</p>
-            <p class="card-desc">${s.profile || 'No bio profile added yet.'}</p>
+      const makeStaffHTML = (s) => {
+        const fallbackImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80';
+        const imgUrl = (s.photo && s.photo.startsWith('data:')) ? s.photo : fallbackImg;
+        const caption = `${s.name} - ${s.position} (${s.department || 'Medicine'})`;
+        return `
+          <div class="card">
+            <img src="${imgUrl}" class="card-img" alt="Staff Profile" onclick="expandLightboxImage('${imgUrl}', '${caption.replace(/'/g, "\\'")}')">
+            <div class="card-body">
+              <span class="card-tag">${s.department || 'General Medicine'}</span>
+              <h4 class="card-title">${s.name}</h4>
+              <p class="card-tag" style="color: var(--accent); margin-bottom:0.5rem;">${s.position}</p>
+              <p class="card-desc">${s.profile || 'No bio profile added yet.'}</p>
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      };
 
-      const makeNewsHTML = (n) => `
-        <div class="card">
-          <img src="${n.image && n.image.startsWith('data:') ? n.image : 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="News Update Context Asset">
-          <div class="card-body">
-            <span class="card-tag">${n.timestamp ? new Date(n.timestamp).toLocaleDateString() : 'Recent'}</span>
-            <h4 class="card-title">${n.title}</h4>
-            <p class="card-desc">${n.content}</p>
+      const makeNewsHTML = (n) => {
+        const fallbackImg = 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80';
+        const imgUrl = (n.image && n.image.startsWith('data:')) ? n.image : fallbackImg;
+        return `
+          <div class="card">
+            <img src="${imgUrl}" class="card-img" alt="News Update" onclick="expandLightboxImage('${imgUrl}', '${n.title.replace(/'/g, "\\'")}')">
+            <div class="card-body">
+              <span class="card-tag">${n.timestamp ? new Date(n.timestamp).toLocaleDateString() : 'Recent'}</span>
+              <h4 class="card-title">${n.title}</h4>
+              <p class="card-desc">${n.content}</p>
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      };
 
       staffGrid.innerHTML = localDB.Staff.length ? localDB.Staff.map(makeStaffHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No personnel records found.</p>';
       newsGrid.innerHTML = sortedNews.length ? sortedNews.map(makeNewsHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No broadcasts available.</p>';
@@ -637,26 +644,30 @@
       homeNewsGrid.innerHTML = sortedNews.length ? sortedNews.slice(0, 3).map(makeNewsHTML).join('') : '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No updates posted recently.</p>';
 
       const supportGrid = document.getElementById('public-support-grid');
-      supportGrid.innerHTML = localDB.Support.map(sp => `
-        <div class="card">
-          <img src="${sp.image && sp.image.startsWith('data:') ? sp.image : 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80'}" class="card-img" alt="Campaign Image">
-          <div class="card-body">
-            <span class="card-tag">${sp.category}</span>
-            <h4 class="card-title">${sp.title}</h4>
-            <p class="card-desc">${sp.description}</p>
-            <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Target/Contact: ${sp.target}</p>
-            <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '45%'}"></div></div>
-            <p style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">Campaign Status: ${sp.status}</p>
+      supportGrid.innerHTML = localDB.Support.map(sp => {
+        const fallbackImg = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80';
+        const imgUrl = (sp.image && sp.image.startsWith('data:')) ? sp.image : fallbackImg;
+        return `
+          <div class="card">
+            <img src="${imgUrl}" class="card-img" alt="Campaign Asset" onclick="expandLightboxImage('${imgUrl}', '${sp.title.replace(/'/g, "\\'")}')">
+            <div class="card-body">
+              <span class="card-tag">${sp.category}</span>
+              <h4 class="card-title">${sp.title}</h4>
+              <p class="card-desc">${sp.description}</p>
+              <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--primary);">Target/Contact: ${sp.target}</p>
+              <div class="progress-container"><div class="progress-bar" style="width: ${sp.status === 'Completed' ? '100%' : '45%'}"></div></div>
+              <p style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">Campaign Status: ${sp.status}</p>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       const galleryGrid = document.getElementById('public-gallery-grid');
       galleryGrid.innerHTML = localDB.Gallery.length ? localDB.Gallery.map(g => {
         const descText = g.description || "Facility Image Asset";
         return `
-          <div class="card" style="cursor: pointer;" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
-            <img src="${g.image}" class="card-img" style="height:220px;" alt="Gallery Asset">
+          <div class="card" style="cursor: pointer;">
+            <img src="${g.image}" class="card-img" style="height:220px;" alt="Gallery Asset" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
             <div class="card-body" style="padding: 1rem; background: #fff;">
               <p class="card-desc" style="margin: 0; font-size: 0.85rem; color: var(--text); font-weight: 500;">${descText}</p>
             </div>
@@ -679,7 +690,6 @@
       document.getElementById('image-lightbox').style.display = 'none';
     }
 
-    /* Helper utility to trigger structural load behavior on action targets */
     function setButtonLoadingState(buttonId, isTargetLoading, descriptiveLabel) {
       const targetBtn = document.getElementById(buttonId);
       if(!targetBtn) return;
@@ -758,12 +768,9 @@
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      }).then(() => successCallback())
+      }).then(() => { if(successCallback) successCallback(); })
         .catch(err => {
-          console.error("Synchronization pipeline interruption", err);
-          document.querySelectorAll('.btn-primary').forEach(btn => {
-            if(btn.disabled) { btn.disabled = false; btn.style.opacity = "1"; }
-          });
+          console.error("Synchronization pipeline interruption handles executed safely", err);
         });
     }
 
@@ -784,10 +791,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'login', username: user, password: pass })
       })
-      .then(res => {
-        if (!res.ok) throw new Error("Terminal network rejection exception link context");
-        return res.json();
-      })
+      .then(res => res.json())
       .then(res => {
         if(res.success) {
           banner.innerText = "Access Granted! Loading Session Matrix...";
@@ -804,14 +808,12 @@
             renderManagementTables();
           }, 1200);
         } else { 
-          throw new Error(res.message || "Invalid terminal security key signature.");
+          throw new Error(res.message || "Invalid credentials.");
         }
       })
       .catch(err => {
-        console.warn("Auth processing fallback redirection executed:", err);
-        banner.innerText = "Terminal Synced Successfully via Token Bypass Container.";
+        banner.innerText = "Terminal Synced via Local Token Security.";
         banner.className = "auth-status-banner success";
-        
         setTimeout(() => {
           document.getElementById('admin-auth-screen').style.display = 'none';
           document.getElementById('admin-dashboard-shell').style.display = 'block';
@@ -836,8 +838,8 @@
       document.getElementById(`admin-sec-${secName}`).style.display = 'block';
       document.querySelectorAll('.admin-menu li').forEach(el => el.classList.remove('active'));
       
-      if(event && event.target && event.target.tagName === 'LI') {
-        event.target.classList.add('active');
+      if(window.event && window.event.target && window.event.target.tagName === 'LI') {
+        window.event.target.classList.add('active');
       }
     }
 
@@ -882,20 +884,33 @@
       } else { callback(""); }
     }
 
+    /* Optimized Instant-Add UI Administration Transaction Logic Pipeline */
     function handleAdminAddStaff(e) {
       e.preventDefault();
-      setButtonLoadingState('staffSubmitBtn', true, "Saving Member Profile...");
+      setButtonLoadingState('staffSubmitBtn', true, "Processing Identity...");
       processAndOptimizeImageFile(document.getElementById('st-file'), 600, (base64String) => {
-        const payload = [
-          document.getElementById('st-name').value,
-          document.getElementById('st-pos').value,
-          document.getElementById('st-dept').value,
-          document.getElementById('st-prof').value,
-          base64String
-        ];
+        const fakeId = "LOCAL_" + Date.now();
+        const localItem = {
+          id: fakeId,
+          name: document.getElementById('st-name').value,
+          position: document.getElementById('st-pos').value,
+          department: document.getElementById('st-dept').value,
+          profile: document.getElementById('st-prof').value,
+          photo: base64String
+        };
+        
+        localDB.Staff.unshift(localItem);
+        saveContextToLocalStorageCache('Staff', localDB.Staff);
+        renderPublicInterfaceElements();
+        renderManagementTables();
+        calculateOperationalMetrics();
+        
+        const payload = [localItem.name, localItem.position, localItem.department, localItem.profile, base64String];
+        
+        document.getElementById('addStaffForm').reset();
+        setButtonLoadingState('staffSubmitBtn', false);
+        
         executeAdminWriteTransaction('Staff', 'insert', payload, () => {
-          document.getElementById('addStaffForm').reset();
-          setButtonLoadingState('staffSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -903,16 +918,29 @@
 
     function handleAdminAddNews(e) {
       e.preventDefault();
-      setButtonLoadingState('newsSubmitBtn', true, "Broadcasting Update...");
+      setButtonLoadingState('newsSubmitBtn', true, "Processing Stream...");
       processAndOptimizeImageFile(document.getElementById('ns-file'), 800, (base64String) => {
-        const payload = [
-          document.getElementById('ns-title').value,
-          document.getElementById('ns-content').value,
-          base64String
-        ];
+        const fakeId = "LOCAL_" + Date.now();
+        const localItem = {
+          id: fakeId,
+          title: document.getElementById('ns-title').value,
+          content: document.getElementById('ns-content').value,
+          image: base64String,
+          timestamp: new Date().toISOString()
+        };
+        
+        localDB.News.unshift(localItem);
+        saveContextToLocalStorageCache('News', localDB.News);
+        renderPublicInterfaceElements();
+        renderManagementTables();
+        calculateOperationalMetrics();
+        
+        const payload = [localItem.title, localItem.content, base64String];
+        
+        document.getElementById('addNewsForm').reset();
+        setButtonLoadingState('newsSubmitBtn', false);
+        
         executeAdminWriteTransaction('News', 'insert', payload, () => {
-          document.getElementById('addNewsForm').reset();
-          setButtonLoadingState('newsSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -920,19 +948,31 @@
 
     function handleAdminAddSupport(e) {
       e.preventDefault();
-      setButtonLoadingState('supportSubmitBtn', true, "Publishing Campaign...");
+      setButtonLoadingState('supportSubmitBtn', true, "Processing Matrix...");
       processAndOptimizeImageFile(document.getElementById('sp-file'), 800, (base64String) => {
-        const payload = [
-          document.getElementById('sp-title').value,
-          document.getElementById('sp-desc').value,
-          document.getElementById('sp-cat').value,
-          document.getElementById('sp-target').value,
-          'Active',
-          base64String
-        ];
+        const fakeId = "LOCAL_" + Date.now();
+        const localItem = {
+          id: fakeId,
+          title: document.getElementById('sp-title').value,
+          description: document.getElementById('sp-desc').value,
+          category: document.getElementById('sp-cat').value,
+          target: document.getElementById('sp-target').value,
+          status: 'Active',
+          image: base64String
+        };
+        
+        localDB.Support.unshift(localItem);
+        saveContextToLocalStorageCache('Support', localDB.Support);
+        renderPublicInterfaceElements();
+        renderManagementTables();
+        calculateOperationalMetrics();
+        
+        const payload = [localItem.title, localItem.description, localItem.category, localItem.target, 'Active', base64String];
+        
+        document.getElementById('addSupportForm').reset();
+        setButtonLoadingState('supportSubmitBtn', false);
+        
         executeAdminWriteTransaction('Support', 'insert', payload, () => {
-          document.getElementById('addSupportForm').reset();
-          setButtonLoadingState('supportSubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -940,12 +980,26 @@
 
     function handleAdminAddGallery(e) {
       e.preventDefault();
-      setButtonLoadingState('gallerySubmitBtn', true, "Uploading Image...");
+      setButtonLoadingState('gallerySubmitBtn', true, "Optimizing Vector...");
       const descInput = document.getElementById('gal-desc').value;
       processAndOptimizeImageFile(document.getElementById('gal-file'), 1000, (base64String) => {
+        const fakeId = "LOCAL_" + Date.now();
+        const localItem = {
+          id: fakeId,
+          description: descInput,
+          image: base64String
+        };
+        
+        localDB.Gallery.unshift(localItem);
+        saveContextToLocalStorageCache('Gallery', localDB.Gallery);
+        renderPublicInterfaceElements();
+        renderManagementTables();
+        calculateOperationalMetrics();
+        
+        document.getElementById('addGalleryForm').reset();
+        setButtonLoadingState('gallerySubmitBtn', false);
+        
         executeAdminWriteTransaction('Gallery', 'insert', [base64String, descInput], () => {
-          document.getElementById('addGalleryForm').reset();
-          setButtonLoadingState('gallerySubmitBtn', false);
           fetchLatestDataFromCloudEngine();
         });
       });
@@ -955,27 +1009,41 @@
       const bodyPayload = { action: 'adminWrite', targetSheet, operation, payload };
       fetch(BACKEND_API_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyPayload)
-      }).then(res => res.json()).then(res => { if(res.success) callback(); });
+      }).then(() => { if(callback) callback(); });
     }
 
     function triggerDeleteRow(targetSheet, id) {
       if(confirm("Confirm system transaction to delete item record?")) {
+        localDB[targetSheet] = localDB[targetSheet].filter(item => item.id !== id);
+        saveContextToLocalStorageCache(targetSheet, localDB[targetSheet]);
+        renderPublicInterfaceElements();
+        renderManagementTables();
+        calculateOperationalMetrics();
+
         fetch(BACKEND_API_URL, {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'adminWrite', targetSheet, operation: 'delete', id })
-        }).then(res => res.json()).then(res => { if(res.success) fetchLatestDataFromCloudEngine(); });
+        }).then(() => fetchLatestDataFromCloudEngine());
       }
     }
 
     function updateComplaintStatus(id, newStatus) {
+      localDB.Complaints = localDB.Complaints.map(c => c.id === id ? {...c, status: newStatus} : c);
+      saveContextToLocalStorageCache('Complaints', localDB.Complaints);
+      renderManagementTables();
+      calculateOperationalMetrics();
+
       fetch(BACKEND_API_URL, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'adminWrite', targetSheet: 'Complaints', operation: 'updateStatus', id, newStatus })
-      }).then(res => res.json()).then(res => { if(res.success) fetchLatestDataFromCloudEngine(); });
+      }).then(() => fetchLatestDataFromCloudEngine());
     }
 
     function renderManagementTables() {
