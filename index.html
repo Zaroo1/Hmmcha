@@ -486,7 +486,7 @@
       <p id="lightbox-expanded-caption"></p>
   </div>
 
-  <script>
+<script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(() => console.log("PWA Service Worker Operational"))
@@ -512,7 +512,7 @@
       if (activeView) activeView.classList.add('active');
       if (activeLink) activeLink.classList.add('active-link');
       
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0 });
     }
 
     window.addEventListener('hashchange', () => {
@@ -556,6 +556,7 @@
       tx.objectStore("cachedData").put({ type: type, payload: dataArray });
     }
 
+    // SPEED OPTIMIZATION: Instant non-blocking cache extraction layout
     function loadSystemCacheContext() {
       if (!indexedDatabaseInstance) return;
       const tx = indexedDatabaseInstance.transaction("cachedData", "readonly");
@@ -569,8 +570,17 @@
           if (req.result) { localDB[table] = req.result.payload; }
           loadedCount++;
           if (loadedCount === tables.length) {
+            // Render locally stored data instantly so first-time pages aren't frozen waiting for cloud downloads
             renderPublicInterfaceElements();
-            if(navigator.onLine) fetchLatestDataFromCloudEngine();
+            
+            // Queue cloud synchronization passively inside a lightweight task loop
+            if (navigator.onLine) {
+              if (window.requestIdleCallback) {
+                window.requestIdleCallback(() => fetchLatestDataFromCloudEngine());
+              } else {
+                setTimeout(fetchLatestDataFromCloudEngine, 200);
+              }
+            }
           }
         };
       });
@@ -586,6 +596,7 @@
             Object.keys(response.data).forEach(key => {
               saveContextToLocalStorageCache(key, response.data[key]);
             });
+            // Update UI smoothly in the background without layout locking
             renderPublicInterfaceElements();
             calculateOperationalMetrics();
             if(document.getElementById('admin-dashboard-shell').style.display === 'block') {
@@ -605,13 +616,15 @@
       const newsGrid = document.getElementById('public-news-grid');
       const homeNewsGrid = document.getElementById('home-news-preview-grid');
       
+      // Inline SVGs serve as instant visual structural layouts before base64 files decode completely
+      const placeholderSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect width='100%' height='100%' fill='%23f1f5f9'/></svg>";
+
       const makeStaffHTML = (s) => {
-        const fallbackImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80';
-        const imgUrl = (s.image && s.image.startsWith('data:')) ? s.image : fallbackImg;
+        const imgUrl = (s.image && s.image.startsWith('data:')) ? s.image : placeholderSVG;
         const caption = `${s.name} - ${s.role} (${s.status || 'Active'})`;
         return `
           <div class="card">
-            <img src="${imgUrl}" class="card-img" alt="Staff Profile" onclick="expandLightboxImage('${imgUrl}', '${caption.replace(/'/g, "\\'")}')">
+            <img src="${imgUrl}" class="card-img" loading="lazy" alt="Staff Profile" onclick="expandLightboxImage('${imgUrl}', '${caption.replace(/'/g, "\\'")}')">
             <div class="card-body">
               <span class="card-tag">${s.status || 'Active Personnel'}</span>
               <h4 class="card-title">${s.name}</h4>
@@ -622,13 +635,12 @@
       };
 
       const makeNewsHTML = (n) => {
-        const fallbackImg = 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80';
-        const imgUrl = (n.image && n.image.startsWith('data:')) ? n.image : fallbackImg;
+        const imgUrl = (n.image && n.image.startsWith('data:')) ? n.image : placeholderSVG;
         let newsContent = n.content || "Click to view details regarding this health broadcast.";
         if (newsContent === "undefined") newsContent = "Broadcast announcement.";
         return `
           <div class="card">
-            <img src="${imgUrl}" class="card-img" alt="News Update" onclick="expandLightboxImage('${imgUrl}', '${n.title.replace(/'/g, "\\'")}')">
+            <img src="${imgUrl}" class="card-img" loading="lazy" alt="News Update" onclick="expandLightboxImage('${imgUrl}', '${n.title.replace(/'/g, "\\'")}')">
             <div class="card-body">
               <span class="card-tag">${n.timestamp ? new Date(n.timestamp).toLocaleDateString() : 'Recent'}</span>
               <h4 class="card-title">${n.title}</h4>
@@ -646,11 +658,10 @@
 
       const supportGrid = document.getElementById('public-support-grid');
       supportGrid.innerHTML = localDB.Support.map(sp => {
-        const fallbackImg = 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=400&q=80';
-        const imgUrl = (sp.image && sp.image.startsWith('data:')) ? sp.image : fallbackImg;
+        const imgUrl = (sp.image && sp.image.startsWith('data:')) ? sp.image : placeholderSVG;
         return `
           <div class="card">
-            <img src="${imgUrl}" class="card-img" alt="Campaign Asset" onclick="expandLightboxImage('${imgUrl}', '${sp.needTitle.replace(/'/g, "\\'")}')">
+            <img src="${imgUrl}" class="card-img" loading="lazy" alt="Campaign Asset" onclick="expandLightboxImage('${imgUrl}', '${sp.needTitle.replace(/'/g, "\\'")}')">
             <div class="card-body">
               <span class="card-tag">${sp.category}</span>
               <h4 class="card-title">${sp.needTitle}</h4>
@@ -668,7 +679,7 @@
         const descText = g.description || "Facility Asset Image";
         return `
           <div class="card" style="cursor: pointer;">
-            <img src="${g.image}" class="card-img" style="height:220px;" alt="Gallery Asset" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
+            <img src="${g.image}" class="card-img" loading="lazy" style="height:220px;" alt="Gallery Asset" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
             <div class="card-body" style="padding: 1rem; background: #fff;">
               <p class="card-desc" style="margin: 0; font-size: 0.85rem; color: var(--text); font-weight: 500;">${descText}</p>
             </div>
@@ -789,7 +800,7 @@
       
       fetch(BACKEND_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // Using text/plain to bypass iOS Safari pre-flight CORS block
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ action: 'login', username: user, password: pass })
       })
       .then(res => res.json())
@@ -895,7 +906,6 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        // Matches Sheet layout sequence: [name, role, image, status]
         const payload = [name, role, base64String, 'Active'];
         
         document.getElementById('addStaffForm').reset();
@@ -929,7 +939,6 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        // Matches Sheet layout sequence: [title, content, image]
         const payload = [textTitle, textBody, base64String];
         
         document.getElementById('addNewsForm').reset();
@@ -965,7 +974,6 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        // Matches Sheet layout sequence: [needTitle, category, description, status]
         const payload = [title, cat, desc, 'Active'];
         
         document.getElementById('addSupportForm').reset();
@@ -994,7 +1002,6 @@
         document.getElementById('addGalleryForm').reset();
         setButtonLoadingState('gallerySubmitBtn', false);
         
-        // Matches Sheet layout sequence: [image, description]
         executeAdminWriteTransaction('Gallery', 'insert', [base64String, descInput], () => {
           fetchLatestDataFromCloudEngine();
         });
