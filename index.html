@@ -625,13 +625,15 @@
       const makeNewsHTML = (n) => {
         const fallbackImg = 'https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=400&q=80';
         const imgUrl = (n.image && n.image.startsWith('data:')) ? n.image : fallbackImg;
+        // FIXED 1: Robust safety fallback to catch alternative content mapping formats
+        const newsContent = n.content || n.description || n.body || "No additional text content provided for this broadcast update.";
         return `
           <div class="card">
             <img src="${imgUrl}" class="card-img" alt="News Update" onclick="expandLightboxImage('${imgUrl}', '${n.title.replace(/'/g, "\\'")}')">
             <div class="card-body">
               <span class="card-tag">${n.timestamp ? new Date(n.timestamp).toLocaleDateString() : 'Recent'}</span>
               <h4 class="card-title">${n.title}</h4>
-              <p class="card-desc">${n.content}</p>
+              <p class="card-desc">${newsContent}</p>
             </div>
           </div>
         `;
@@ -664,7 +666,8 @@
 
       const galleryGrid = document.getElementById('public-gallery-grid');
       galleryGrid.innerHTML = localDB.Gallery.length ? localDB.Gallery.map(g => {
-        const descText = g.description || "Facility Image Asset";
+        // FIXED 2: Correctly matches the updated structural layout properties for media captions
+        const descText = g.description || g.caption || "Facility Asset Image";
         return `
           <div class="card" style="cursor: pointer;">
             <img src="${g.image}" class="card-img" style="height:220px;" alt="Gallery Asset" onclick="expandLightboxImage('${g.image}', '${descText.replace(/'/g, "\\'")}')">
@@ -884,7 +887,6 @@
       } else { callback(""); }
     }
 
-    /* Optimized Instant-Add UI Administration Transaction Logic Pipeline */
     function handleAdminAddStaff(e) {
       e.preventDefault();
       setButtonLoadingState('staffSubmitBtn', true, "Processing Identity...");
@@ -919,12 +921,15 @@
     function handleAdminAddNews(e) {
       e.preventDefault();
       setButtonLoadingState('newsSubmitBtn', true, "Processing Stream...");
+      const textTitle = document.getElementById('ns-title').value;
+      const textBody = document.getElementById('ns-content').value;
+      
       processAndOptimizeImageFile(document.getElementById('ns-file'), 800, (base64String) => {
         const fakeId = "LOCAL_" + Date.now();
         const localItem = {
           id: fakeId,
-          title: document.getElementById('ns-title').value,
-          content: document.getElementById('ns-content').value,
+          title: textTitle,
+          content: textBody,
           image: base64String,
           timestamp: new Date().toISOString()
         };
@@ -935,7 +940,8 @@
         renderManagementTables();
         calculateOperationalMetrics();
         
-        const payload = [localItem.title, localItem.content, base64String];
+        // FIXED 1: Maps both 'content' and secondary descriptions to solve field structural array mapping mismatches
+        const payload = [textTitle, textBody, base64String, textBody];
         
         document.getElementById('addNewsForm').reset();
         setButtonLoadingState('newsSubmitBtn', false);
@@ -999,7 +1005,8 @@
         document.getElementById('addGalleryForm').reset();
         setButtonLoadingState('gallerySubmitBtn', false);
         
-        executeAdminWriteTransaction('Gallery', 'insert', [base64String, descInput], () => {
+        // FIXED 2: Places user custom description payload at the start of column positioning parameters
+        executeAdminWriteTransaction('Gallery', 'insert', [descInput, base64String, descInput], () => {
           fetchLatestDataFromCloudEngine();
         });
       });
